@@ -203,7 +203,7 @@ export function HeroSection() {
             >
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               <span className="text-sm font-medium text-primary">
-                50.000+ nguoi Ha Noi tin dung
+                50.000+ người Hà Nội tin dùng
               </span>
             </motion.div>
 
@@ -214,9 +214,9 @@ export function HeroSection() {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance"
             >
-              An Ngon An Toan tai{" "}
+              Ăn Ngon An Toàn tại{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/70">
-                Ha Noi
+                Hà Nội
               </span>
             </motion.h1>
 
@@ -227,8 +227,8 @@ export function HeroSection() {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-lg leading-relaxed"
             >
-              Kham pha cac nha hang va quan an duong pho duoc chung nhan an toan
-              tren toan thanh pho. Nen tang tin cay ve an toan thuc pham.
+              Khám phá các nhà hàng và quán ăn đường phố được chứng nhận an toàn
+              trên toàn thành phố. Nền tảng tin cậy về an toàn thực phẩm.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -242,7 +242,7 @@ export function HeroSection() {
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 shadow-lg shadow-primary/25 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
               >
-                Kham pha nha hang an toan
+                Khám phá nhà hàng an toàn
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button
@@ -251,7 +251,7 @@ export function HeroSection() {
                 className="rounded-full px-8 border-border hover:bg-muted text-foreground"
               >
                 <MapPin className="mr-2 w-4 h-4" />
-                Xem ban do thuc pham
+                Xem bản đồ thực phẩm
               </Button>
             </motion.div>
           </motion.div>
@@ -307,7 +307,7 @@ export function HeroSection() {
                 >
                   <span className="w-2 h-2 rounded-full bg-primary-foreground animate-pulse" />
                   <span className="text-sm font-medium">
-                    Chung nhan an toan
+                    Chứng nhận an toàn
                   </span>
                 </motion.div>
               </div>
@@ -349,7 +349,7 @@ export function HeroSection() {
             className="flex items-center justify-center gap-3 mb-8"
           >
             <div className="h-px w-12 bg-border" />
-            <span className="text-sm font-medium text-muted-foreground">Thong ke truc tiep</span>
+            <span className="text-sm font-medium text-muted-foreground">Thống kê trực tiếp</span>
             <div className="h-px w-12 bg-border" />
           </motion.div>
 
@@ -368,7 +368,7 @@ export function HeroSection() {
             className="mt-8 flex items-center justify-center gap-2 text-sm text-muted-foreground"
           >
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span>Du lieu cap nhat lien tuc</span>
+            <span>Dữ liệu cập nhật liên tục</span>
           </motion.div>
         </motion.div>
       </div>

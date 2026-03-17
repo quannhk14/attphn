@@ -49,13 +49,13 @@ const restaurants: Restaurant[] = [
     address: "10 Ly Quoc Su, Hoan Kiem",
     status: "safe",
     rating: 4.8,
-    inspectionDate: "Thang 3/2026",
+    inspectionDate: "Tháng 3/2026",
     image: "🍜",
     type: "Pho",
     phone: "024-3824-2468",
     hygieneScore: 95,
-    certificationInfo: "Chung nhan ATTP cap A - Co so dat chuan ve sinh an toan thuc pham theo quy dinh Bo Y te",
-    lastInspectionDetails: "Kiem tra dinh ky ngay 15/03/2026. Tat ca tieu chi dat yeu cau.",
+    certificationInfo: "Chứng nhận ATTP cấp A - Cơ sở đạt chuẩn vệ sinh an toàn thực phẩm theo quy định Bộ Y tế",
+    lastInspectionDetails: "Kiểm tra định kỳ ngày 15/03/2026. Tất cả tiêu chí đạt yêu cầu.",
   },
   {
     id: 2,
@@ -63,13 +63,13 @@ const restaurants: Restaurant[] = [
     address: "24 Le Van Huu, Hai Ba Trung",
     status: "safe",
     rating: 4.9,
-    inspectionDate: "Thang 2/2026",
+    inspectionDate: "Tháng 2/2026",
     image: "🍲",
     type: "Bun cha",
     phone: "024-3943-4106",
     hygieneScore: 98,
-    certificationInfo: "Chung nhan ATTP cap A - Nha hang Obama da tung den. Co so mau muc ve an toan thuc pham.",
-    lastInspectionDetails: "Kiem tra ngay 20/02/2026. Xuat sac ve ve sinh bep va bao quan thuc pham.",
+    certificationInfo: "Chứng nhận ATTP cấp A - Nhà hàng Obama đã từng đến. Cơ sở mẫu mực về an toàn thực phẩm.",
+    lastInspectionDetails: "Kiểm tra ngày 20/02/2026. Xuất sắc về vệ sinh bếp và bảo quản thực phẩm.",
   },
   {
     id: 3,
@@ -77,13 +77,13 @@ const restaurants: Restaurant[] = [
     address: "14 Cha Ca, Hoan Kiem",
     status: "safe",
     rating: 4.7,
-    inspectionDate: "Thang 3/2026",
+    inspectionDate: "Tháng 3/2026",
     image: "🐟",
-    type: "Hai san",
+    type: "Hải sản",
     phone: "024-3825-3929",
     hygieneScore: 92,
-    certificationInfo: "Chung nhan ATTP cap B - Co so truyen thong dat chuan. Nguon hai san ro rang.",
-    lastInspectionDetails: "Kiem tra ngay 10/03/2026. Dat yeu cau ve ve sinh va nguon goc thuc pham.",
+    certificationInfo: "Chứng nhận ATTP cấp B - Cơ sở truyền thống đạt chuẩn. Nguồn hải sản rõ ràng.",
+    lastInspectionDetails: "Kiểm tra ngày 10/03/2026. Đạt yêu cầu về vệ sinh và nguồn gốc thực phẩm.",
   },
   {
     id: 4,
@@ -91,13 +91,13 @@ const restaurants: Restaurant[] = [
     address: "25 Hang Ca, Hoan Kiem",
     status: "safe",
     rating: 4.6,
-    inspectionDate: "Thang 1/2026",
+    inspectionDate: "Tháng 1/2026",
     image: "🥖",
-    type: "An vat",
+    type: "Ăn vặt",
     phone: "024-3828-8818",
     hygieneScore: 90,
-    certificationInfo: "Chung nhan ATTP cap B - Quan an vat dat chuan ve sinh.",
-    lastInspectionDetails: "Kiem tra ngay 25/01/2026. Dat yeu cau co ban, can cai thien he thong thong gio.",
+    certificationInfo: "Chứng nhận ATTP cấp B - Quán ăn vặt đạt chuẩn vệ sinh.",
+    lastInspectionDetails: "Kiểm tra ngày 25/01/2026. Đạt yêu cầu cơ bản, cần cải thiện hệ thống thông gió.",
   },
   {
     id: 5,
@@ -105,12 +105,12 @@ const restaurants: Restaurant[] = [
     address: "56 Pho Hue, Hai Ba Trung",
     status: "violation",
     rating: 3.2,
-    inspectionDate: "Thang 2/2026",
+    inspectionDate: "Tháng 2/2026",
     image: "🍢",
-    type: "An vat",
-    violationDetails: "Vi pham ve sinh an toan thuc pham: Bao quan thuc pham khong dung quy dinh, thieu giay chung nhan nguon goc.",
-    penaltyInfo: "Phat hanh chinh 15.000.000 VND. Dinh chi hoat dong 15 ngay de khac phuc.",
-    lastInspectionDetails: "Kiem tra ngay 18/02/2026. Phat hien nhieu vi pham nghiem trong.",
+    type: "Ăn vặt",
+    violationDetails: "Vi phạm vệ sinh an toàn thực phẩm: Bảo quản thực phẩm không đúng quy định, thiếu giấy chứng nhận nguồn gốc.",
+    penaltyInfo: "Phạt hành chính 15.000.000 VND. Đình chỉ hoạt động 15 ngày để khắc phục.",
+    lastInspectionDetails: "Kiểm tra ngày 18/02/2026. Phát hiện nhiều vi phạm nghiêm trọng.",
   },
   {
     id: 6,
@@ -118,12 +118,12 @@ const restaurants: Restaurant[] = [
     address: "Cho Dong Xuan",
     status: "violation",
     rating: 3.0,
-    inspectionDate: "Thang 3/2026",
+    inspectionDate: "Tháng 3/2026",
     image: "🥩",
-    type: "Do nuong",
-    violationDetails: "Khong co giay phep kinh doanh thuc pham. Nguon goc thit khong ro rang. Dieu kien ve sinh kem.",
-    penaltyInfo: "Phat hanh chinh 25.000.000 VND. Cam hoat dong cho den khi du dieu kien.",
-    lastInspectionDetails: "Kiem tra dot xuat ngay 05/03/2026. Vi pham nghiem trong ve an toan thuc pham.",
+    type: "Đồ nướng",
+    violationDetails: "Không có giấy phép kinh doanh thực phẩm. Nguồn gốc thịt không rõ ràng. Điều kiện vệ sinh kém.",
+    penaltyInfo: "Phạt hành chính 25.000.000 VND. Cấm hoạt động cho đến khi đủ điều kiện.",
+    lastInspectionDetails: "Kiểm tra đột xuất ngày 05/03/2026. Vi phạm nghiêm trọng về an toàn thực phẩm.",
   },
 ];
 
@@ -186,13 +186,13 @@ function RestaurantDetailModal({
                 >
                   {isSafe ? (
                     <>
-                      <BadgeCheck className="w-3.5 h-3.5" />
-                      Chung nhan an toan
+<BadgeCheck className="w-3.5 h-3.5" />
+                                      Chứng nhận an toàn
                     </>
                   ) : (
                     <>
-                      <FileWarning className="w-3.5 h-3.5" />
-                      Co vi pham
+<FileWarning className="w-3.5 h-3.5" />
+                                      Có vi phạm
                     </>
                   )}
                 </motion.div>
@@ -263,7 +263,7 @@ function RestaurantDetailModal({
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium text-foreground">
-                      Diem ve sinh
+                      Điểm vệ sinh
                     </span>
                     <span className="text-2xl font-bold text-primary">
                       {restaurant.hygieneScore}/100
@@ -291,7 +291,7 @@ function RestaurantDetailModal({
                   <div className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-primary" />
                     <span className="text-sm font-medium text-foreground">
-                      Thong tin chung nhan
+                      Thông tin chứng nhận
                     </span>
                   </div>
                   <p className="text-sm text-muted-foreground pl-6">
@@ -311,7 +311,7 @@ function RestaurantDetailModal({
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4 text-muted-foreground" />
                     <span className="text-sm font-medium text-foreground">
-                      Kiem tra gan nhat
+                      Kiểm tra gần nhất
                     </span>
                   </div>
                   <p className="text-sm text-muted-foreground pl-6">
@@ -334,7 +334,7 @@ function RestaurantDetailModal({
                     <AlertTriangle className="w-4 h-4 text-destructive mt-0.5" />
                     <div>
                       <span className="text-sm font-medium text-foreground block mb-1">
-                        Chi tiet vi pham
+                        Chi tiết vi phạm
                       </span>
                       <p className="text-sm text-muted-foreground">
                         {restaurant.violationDetails}
@@ -355,7 +355,7 @@ function RestaurantDetailModal({
                   <div className="flex items-center gap-2">
                     <FileWarning className="w-4 h-4 text-destructive" />
                     <span className="text-sm font-medium text-foreground">
-                      Hinh thuc xu ly
+                      Hình thức xử lý
                     </span>
                   </div>
                   <p className="text-sm text-muted-foreground pl-6">
@@ -375,7 +375,7 @@ function RestaurantDetailModal({
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4 text-muted-foreground" />
                     <span className="text-sm font-medium text-foreground">
-                      Lan kiem tra gan nhat
+                      Lần kiểm tra gần nhất
                     </span>
                   </div>
                   <p className="text-sm text-muted-foreground pl-6">
@@ -445,13 +445,13 @@ function RestaurantCard({
         >
           {restaurant.status === "safe" ? (
             <>
-              <Shield className="w-3 h-3" />
-              Chung nhan
+<Shield className="w-3 h-3" />
+                              Chứng nhận
             </>
           ) : (
             <>
-              <AlertTriangle className="w-3 h-3" />
-              Vi pham
+<AlertTriangle className="w-3 h-3" />
+                              Vi phạm
             </>
           )}
         </div>
@@ -481,7 +481,7 @@ function RestaurantCard({
           </div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Calendar className="w-4 h-4" />
-            <span>Kiem tra: {restaurant.inspectionDate}</span>
+            <span>Kiểm tra: {restaurant.inspectionDate}</span>
           </div>
         </div>
 
@@ -495,7 +495,7 @@ function RestaurantCard({
             size="sm"
             className="w-full rounded-xl hover:bg-muted"
           >
-            Xem chi tiet
+            Xem chi tiết
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </motion.div>
@@ -555,11 +555,11 @@ export function FoodPlacesSection() {
         >
           <div className="text-center sm:text-left">
             <h2 className="text-3xl sm:text-4xl font-bold text-foreground text-balance">
-              Dia diem am thuc da xac minh
+              Địa điểm ẩm thực đã xác minh
             </h2>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
-              Kham pha cac nha hang duoc chung nhan va theo doi vi pham an toan
-              thuc pham tai Ha Noi
+              Khám phá các nhà hàng được chứng nhận và theo dõi vi phạm an toàn
+              thực phẩm tại Hà Nội
             </p>
           </div>
 
