@@ -3,7 +3,6 @@ import { HeroSection } from "@/components/hero-section";
 import { FoodPlacesSection } from "@/components/food-places-section";
 import { MapPreviewSection } from "@/components/map-preview-section";
 import { NewsSection } from "@/components/news-section";
-import { StatisticsSection } from "@/components/statistics-section";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
@@ -11,10 +10,9 @@ export default function Home() {
     <main className="min-h-screen bg-background">
       <Header />
       <HeroSection />
+      <NewsSection />
       <FoodPlacesSection />
       <MapPreviewSection />
-      <StatisticsSection />
-      <NewsSection />
       <Footer />
     </main>
   );

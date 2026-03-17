@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { MapPin as MapPinIcon, ArrowRight, Shield, AlertTriangle, Clock, Calendar, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { StylizedHanoiMap } from "./stylized-hanoi-map";
+import Link from "next/link";
 
 const mapPins = [
   {
@@ -332,13 +333,15 @@ export function MapPreviewSection() {
               transition={{ delay: 0.3 }}
               className="mt-8"
             >
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all hover:-translate-y-0.5"
-              >
-                Mở bản đồ đầy đủ
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
+              <Link href="/map">
+                <Button
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all hover:-translate-y-0.5"
+                >
+                  Mo ban do day du
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </Link>
             </motion.div>
           </motion.div>
 
