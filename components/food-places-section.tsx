@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Shield,
@@ -15,6 +15,14 @@ import {
   Clock,
   Phone,
   BadgeCheck,
+  Upload,
+  Building2,
+  Send,
+  Loader2,
+  ShieldCheck,
+  User,
+  FileText,
+  ImageIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +30,13 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { toast } from "sonner";
 
 interface Restaurant {
   id: number;
@@ -126,6 +140,421 @@ const restaurants: Restaurant[] = [
     lastInspectionDetails: "Kiểm tra đột xuất ngày 05/03/2026. Vi phạm nghiêm trọng về an toàn thực phẩm.",
   },
 ];
+
+// Registration/Feedback Modal
+function FeedbackModal({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    phone: "",
+    address: "",
+    requestType: "register",
+    details: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
+
+  // Reset form when modal closes
+  useEffect(() => {
+    if (!open) {
+      setFormData({
+        fullName: "",
+        phone: "",
+        address: "",
+        requestType: "register",
+        details: "",
+      });
+      setUploadedFiles([]);
+    }
+  }, [open]);
+
+  // ESC key handler
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape" && open) {
+        onClose();
+      }
+    },
+    [open, onClose]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [open]);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const fileNames = Array.from(files).map((f) => f.name);
+      setUploadedFiles((prev) => [...prev, ...fileNames].slice(0, 5));
+    }
+  };
+
+  const removeFile = (index: number) => {
+    setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    setIsSubmitting(false);
+    toast.success(
+      formData.requestType === "register"
+        ? "Đăng ký cơ sở thành công! Chúng tôi sẽ liên hệ trong 24h."
+        : "Phản ánh đã được gửi! Cảm ơn bạn đã đóng góp.",
+      {
+        description: "Mã tiếp nhận: #ATTP-" + Math.random().toString(36).substring(2, 8).toUpperCase(),
+        duration: 5000,
+      }
+    );
+    onClose();
+  };
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <Dialog open={open} onOpenChange={onClose}>
+          <DialogContent 
+            className="sm:max-w-xl bg-card/98 backdrop-blur-2xl border-border/40 p-0 overflow-hidden shadow-2xl"
+            showCloseButton={false}
+          >
+            {/* Premium Header with Government Seal Effect */}
+            <div className="relative">
+              {/* Decorative top border */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/80 to-primary" />
+              
+              {/* Header content */}
+              <div className="relative px-6 pt-6 pb-5 bg-gradient-to-br from-primary/8 via-primary/4 to-transparent">
+                {/* Official badge */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ type: "spring", delay: 0.1 }}
+                  className="absolute top-4 right-4"
+                >
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20">
+                    <ShieldCheck className="w-3.5 h-3.5 text-primary" />
+                    <span className="text-xs font-medium text-primary">Chính thức</span>
+                  </div>
+                </motion.div>
+
+                <DialogHeader className="space-y-2">
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.05 }}
+                    className="flex items-center gap-3"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg shadow-primary/25">
+                      <FileWarning className="w-6 h-6 text-primary-foreground" />
+                    </div>
+                    <div>
+                      <DialogTitle className="text-xl font-bold text-foreground">
+                        Đăng ký / Phản ánh ATTP
+                      </DialogTitle>
+                      <DialogDescription className="text-sm text-muted-foreground mt-0.5">
+                        Cổng tiếp nhận thông tin An toàn Thực phẩm Hà Nội
+                      </DialogDescription>
+                    </div>
+                  </motion.div>
+                </DialogHeader>
+              </div>
+            </div>
+
+            {/* Form Content */}
+            <form onSubmit={handleSubmit} className="px-6 pb-6 space-y-5">
+              {/* Request Type Selection */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="space-y-3"
+              >
+                <Label className="text-sm font-semibold text-foreground flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-muted-foreground" />
+                  Loại yêu cầu
+                </Label>
+                <RadioGroup
+                  value={formData.requestType}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, requestType: value })
+                  }
+                  className="grid grid-cols-2 gap-3"
+                >
+                  <Label
+                    htmlFor="register"
+                    className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                      formData.requestType === "register"
+                        ? "border-primary bg-primary/5 shadow-sm"
+                        : "border-border hover:border-primary/30 hover:bg-muted/30"
+                    }`}
+                  >
+                    <RadioGroupItem value="register" id="register" />
+                    <div className="flex items-center gap-2">
+                      <Building2 className={`w-4 h-4 ${formData.requestType === "register" ? "text-primary" : "text-muted-foreground"}`} />
+                      <span className={`text-sm font-medium ${formData.requestType === "register" ? "text-foreground" : "text-muted-foreground"}`}>
+                        Đăng ký cơ sở
+                      </span>
+                    </div>
+                  </Label>
+                  <Label
+                    htmlFor="report"
+                    className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                      formData.requestType === "report"
+                        ? "border-destructive bg-destructive/5 shadow-sm"
+                        : "border-border hover:border-destructive/30 hover:bg-muted/30"
+                    }`}
+                  >
+                    <RadioGroupItem value="report" id="report" />
+                    <div className="flex items-center gap-2">
+                      <AlertTriangle className={`w-4 h-4 ${formData.requestType === "report" ? "text-destructive" : "text-muted-foreground"}`} />
+                      <span className={`text-sm font-medium ${formData.requestType === "report" ? "text-foreground" : "text-muted-foreground"}`}>
+                        Phản ánh vi phạm
+                      </span>
+                    </div>
+                  </Label>
+                </RadioGroup>
+              </motion.div>
+
+              {/* Personal Information */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+                className="grid sm:grid-cols-2 gap-4"
+              >
+                <div className="space-y-2">
+                  <Label htmlFor="fullName" className="text-sm font-medium text-foreground flex items-center gap-2">
+                    <User className="w-3.5 h-3.5 text-muted-foreground" />
+                    Họ và tên <span className="text-destructive">*</span>
+                  </Label>
+                  <Input
+                    id="fullName"
+                    placeholder="Nhập họ và tên"
+                    value={formData.fullName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, fullName: e.target.value })
+                    }
+                    required
+                    className="h-11 rounded-xl border-border/60 bg-muted/30 focus:bg-background transition-colors"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phone" className="text-sm font-medium text-foreground flex items-center gap-2">
+                    <Phone className="w-3.5 h-3.5 text-muted-foreground" />
+                    Số điện thoại <span className="text-destructive">*</span>
+                  </Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="0xxx xxx xxx"
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
+                    required
+                    className="h-11 rounded-xl border-border/60 bg-muted/30 focus:bg-background transition-colors"
+                  />
+                </div>
+              </motion.div>
+
+              {/* Address */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="space-y-2"
+              >
+                <Label htmlFor="address" className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
+                  Địa chỉ cơ sở / địa điểm <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="address"
+                  placeholder="Số nhà, đường, phường/xã, quận/huyện"
+                  value={formData.address}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: e.target.value })
+                  }
+                  required
+                  className="h-11 rounded-xl border-border/60 bg-muted/30 focus:bg-background transition-colors"
+                />
+              </motion.div>
+
+              {/* Details */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                className="space-y-2"
+              >
+                <Label htmlFor="details" className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <FileText className="w-3.5 h-3.5 text-muted-foreground" />
+                  Nội dung chi tiết <span className="text-destructive">*</span>
+                </Label>
+                <Textarea
+                  id="details"
+                  placeholder={
+                    formData.requestType === "register"
+                      ? "Mô tả về cơ sở kinh doanh, loại hình, quy mô..."
+                      : "Mô tả chi tiết về vi phạm, thời gian, tình trạng..."
+                  }
+                  value={formData.details}
+                  onChange={(e) =>
+                    setFormData({ ...formData, details: e.target.value })
+                  }
+                  required
+                  rows={3}
+                  className="rounded-xl border-border/60 bg-muted/30 focus:bg-background transition-colors resize-none"
+                />
+              </motion.div>
+
+              {/* File Upload */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="space-y-2"
+              >
+                <Label className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <ImageIcon className="w-3.5 h-3.5 text-muted-foreground" />
+                  Hình ảnh đính kèm
+                  <span className="text-xs text-muted-foreground font-normal">(Tùy chọn)</span>
+                </Label>
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleFileUpload}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                  />
+                  <div className="border-2 border-dashed border-border/60 rounded-xl p-4 text-center hover:border-primary/40 hover:bg-primary/5 transition-all duration-200">
+                    <Upload className="w-6 h-6 text-muted-foreground mx-auto mb-2" />
+                    <p className="text-sm text-muted-foreground">
+                      Kéo thả hoặc <span className="text-primary font-medium">chọn ảnh</span>
+                    </p>
+                    <p className="text-xs text-muted-foreground/70 mt-1">
+                      PNG, JPG tối đa 5 ảnh
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Uploaded files list */}
+                {uploadedFiles.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {uploadedFiles.map((file, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-muted/50 border border-border/50"
+                      >
+                        <ImageIcon className="w-3.5 h-3.5 text-muted-foreground" />
+                        <span className="text-xs text-foreground truncate max-w-24">{file}</span>
+                        <button
+                          type="button"
+                          onClick={() => removeFile(index)}
+                          className="text-muted-foreground hover:text-destructive transition-colors"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+
+              {/* Divider */}
+              <div className="h-px bg-border/50" />
+
+              {/* Action Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35 }}
+                className="flex flex-col-reverse sm:flex-row gap-3 pt-1"
+              >
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={onClose}
+                  disabled={isSubmitting}
+                  className="flex-1 h-11 rounded-xl border-border/60 hover:bg-muted/50"
+                >
+                  Hủy
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`flex-1 h-11 rounded-xl shadow-lg transition-all duration-200 ${
+                    formData.requestType === "register"
+                      ? "bg-primary hover:bg-primary/90 shadow-primary/25 hover:shadow-primary/35"
+                      : "bg-destructive hover:bg-destructive/90 shadow-destructive/25 hover:shadow-destructive/35"
+                  }`}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Đang gửi...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4 mr-2" />
+                      {formData.requestType === "register"
+                        ? "Gửi đăng ký"
+                        : "Gửi phản ánh"}
+                    </>
+                  )}
+                </Button>
+              </motion.div>
+
+              {/* Trust indicators */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="flex items-center justify-center gap-4 pt-2"
+              >
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <Shield className="w-3.5 h-3.5" />
+                  <span>Bảo mật thông tin</span>
+                </div>
+                <div className="w-px h-3 bg-border" />
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <CheckCircle className="w-3.5 h-3.5" />
+                  <span>Xử lý trong 24h</span>
+                </div>
+              </motion.div>
+            </form>
+          </DialogContent>
+        </Dialog>
+      )}
+    </AnimatePresence>
+  );
+}
 
 function RestaurantDetailModal({
   restaurant,
@@ -532,6 +961,7 @@ export function FoodPlacesSection() {
   const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(
     null
   );
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
 
   const filteredRestaurants = restaurants.filter((r) =>
     activeTab === "safe" ? r.status === "safe" : r.status === "violation"
@@ -572,6 +1002,7 @@ export function FoodPlacesSection() {
           >
             <Button
               size="lg"
+              onClick={() => setIsFeedbackModalOpen(true)}
               className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-6 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all hover:-translate-y-0.5 whitespace-nowrap"
             >
               <FileWarning className="mr-2 w-4 h-4" />
@@ -680,6 +1111,12 @@ export function FoodPlacesSection() {
         restaurant={selectedRestaurant}
         open={!!selectedRestaurant}
         onClose={() => setSelectedRestaurant(null)}
+      />
+
+      {/* Feedback/Registration Modal */}
+      <FeedbackModal
+        open={isFeedbackModalOpen}
+        onClose={() => setIsFeedbackModalOpen(false)}
       />
     </section>
   );
