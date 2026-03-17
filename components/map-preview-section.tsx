@@ -338,7 +338,7 @@ export function MapPreviewSection() {
                   size="lg"
                   className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all hover:-translate-y-0.5"
                 >
-                  Mo ban do day du
+                  Mở bản đồ đầy đủ
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </Link>

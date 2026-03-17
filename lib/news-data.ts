@@ -16,219 +16,219 @@ export const newsArticles: NewsArticle[] = [
   {
     id: 1,
     slug: "tieu-chuan-an-toan-thuc-pham-moi-tai-pho-co",
-    title: "Tieu chuan an toan thuc pham moi tai Pho Co",
+    title: "Tiêu chuẩn an toàn thực phẩm mới tại Phố Cổ",
     excerpt:
-      "So An toan thuc pham da trien khai huong dan toan dien moi cho cac nha hang tai quan Hoan Kiem lich su.",
+      "Sở An toàn thực phẩm đã triển khai hướng dẫn toàn diện mới cho các nhà hàng tại quận Hoàn Kiếm lịch sử.",
     content: `
-      <p>So Y te Ha Noi vua ban hanh bo tieu chuan an toan thuc pham moi ap dung cho cac co so kinh doanh an uong tai khu vuc Pho Co, quan Hoan Kiem. Day la mot trong nhung buoc di quan trong nham nang cao chat luong ve sinh an toan thuc pham tai khu vuc du lich trong diem cua Thu do.</p>
+      <p>Sở Y tế Hà Nội vừa ban hành bộ tiêu chuẩn an toàn thực phẩm mới áp dụng cho các cơ sở kinh doanh ăn uống tại khu vực Phố Cổ, quận Hoàn Kiếm. Đây là một trong những bước đi quan trọng nhằm nâng cao chất lượng vệ sinh an toàn thực phẩm tại khu vực du lịch trọng điểm của Thủ đô.</p>
       
-      <h2>Nhung diem moi trong quy dinh</h2>
-      <p>Bo tieu chuan moi tap trung vao cac van de chinh bao gom:</p>
+      <h2>Những điểm mới trong quy định</h2>
+      <p>Bộ tiêu chuẩn mới tập trung vào các vấn đề chính bao gồm:</p>
       <ul>
-        <li>Quy dinh cu the ve dieu kien co so vat chat, trang thiet bi</li>
-        <li>Yeu cau ve nguon goc, xuat xu nguyen lieu thuc pham</li>
-        <li>Quy trinh che bien, bao quan thuc an</li>
-        <li>Dao tao nhan vien ve ve sinh an toan thuc pham</li>
+        <li>Quy định cụ thể về điều kiện cơ sở vật chất, trang thiết bị</li>
+        <li>Yêu cầu về nguồn gốc, xuất xứ nguyên liệu thực phẩm</li>
+        <li>Quy trình chế biến, bảo quản thức ăn</li>
+        <li>Đào tạo nhân viên về vệ sinh an toàn thực phẩm</li>
       </ul>
       
-      <h2>Lo trinh ap dung</h2>
-      <p>Theo ke hoach, bo tieu chuan se duoc ap dung theo 3 giai doan:</p>
+      <h2>Lộ trình áp dụng</h2>
+      <p>Theo kế hoạch, bộ tiêu chuẩn sẽ được áp dụng theo 3 giai đoạn:</p>
       <ul>
-        <li>Giai doan 1 (Thang 4-6/2026): Tap huan, huong dan cho cac co so</li>
-        <li>Giai doan 2 (Thang 7-9/2026): Ap dung thu nghiem tai 50 co so</li>
-        <li>Giai doan 3 (Tu thang 10/2026): Ap dung rong rai tren toan khu vuc</li>
+        <li>Giai đoạn 1 (Tháng 4-6/2026): Tập huấn, hướng dẫn cho các cơ sở</li>
+        <li>Giai đoạn 2 (Tháng 7-9/2026): Áp dụng thử nghiệm tại 50 cơ sở</li>
+        <li>Giai đoạn 3 (Từ tháng 10/2026): Áp dụng rộng rãi trên toàn khu vực</li>
       </ul>
       
-      <h2>Loi ich cho nguoi tieu dung</h2>
-      <p>Viec ap dung bo tieu chuan moi se giup nguoi dan va du khach yen tam hon khi su dung dich vu an uong tai Pho Co. Cac co so dat chuan se duoc cap bien hieu nhan dien de giup nguoi tieu dung de dang lua chon.</p>
+      <h2>Lợi ích cho người tiêu dùng</h2>
+      <p>Việc áp dụng bộ tiêu chuẩn mới sẽ giúp người dân và du khách yên tâm hơn khi sử dụng dịch vụ ăn uống tại Phố Cổ. Các cơ sở đạt chuẩn sẽ được cấp biển hiệu nhận diện để giúp người tiêu dùng dễ dàng lựa chọn.</p>
     `,
     date: "12/03/2026",
-    readTime: "4 phut",
+    readTime: "4 phút",
     image: "📋",
-    category: "Quy dinh",
-    author: "Nguyen Van A",
-    authorRole: "Chuyen vien So Y te",
+    category: "Quy định",
+    author: "Nguyễn Văn A",
+    authorRole: "Chuyên viên Sở Y tế",
   },
   {
     id: 2,
     slug: "top-10-quan-an-duong-pho-chung-nhan",
-    title: "Top 10 quan an duong pho duoc chung nhan tai Ha Noi",
+    title: "Top 10 quán ăn đường phố được chứng nhận tại Hà Nội",
     excerpt:
-      "Kham pha nhung quan an duong pho dat chung nhan an toan cao nhat tu thanh tra thanh pho.",
+      "Khám phá những quán ăn đường phố đạt chứng nhận an toàn cao nhất từ thanh tra thành phố.",
     content: `
-      <p>Trong dot kiem tra dinh ky quy I/2026, co 10 quan an duong pho dat diem ve sinh an toan thuc pham cao nhat. Day deu la nhung co so co truyen thong lau nam va duoc nguoi dan tin tuong.</p>
+      <p>Trong đợt kiểm tra định kỳ quý I/2026, có 10 quán ăn đường phố đạt điểm vệ sinh an toàn thực phẩm cao nhất. Đây đều là những cơ sở có truyền thống lâu năm và được người dân tin tưởng.</p>
       
-      <h2>Danh sach Top 10</h2>
+      <h2>Danh sách Top 10</h2>
       <ol>
-        <li><strong>Pho 10 Ly Quoc Su</strong> - 98/100 diem</li>
-        <li><strong>Bun Cha Huong Lien</strong> - 97/100 diem</li>
-        <li><strong>Cha Ca La Vong</strong> - 96/100 diem</li>
-        <li><strong>Bun Bo Nam Bo</strong> - 95/100 diem</li>
-        <li><strong>Banh Cuon Ba Hanh</strong> - 95/100 diem</li>
-        <li><strong>Ca Phe Giang</strong> - 94/100 diem</li>
-        <li><strong>Banh Mi 25</strong> - 94/100 diem</li>
-        <li><strong>Pho Thin</strong> - 93/100 diem</li>
-        <li><strong>Bun Dau Mam Tom Hang Khay</strong> - 93/100 diem</li>
-        <li><strong>Xoi Yen</strong> - 92/100 diem</li>
+        <li><strong>Phở 10 Lý Quốc Sư</strong> - 98/100 điểm</li>
+        <li><strong>Bún Chả Hương Liên</strong> - 97/100 điểm</li>
+        <li><strong>Chả Cá Lã Vọng</strong> - 96/100 điểm</li>
+        <li><strong>Bún Bò Nam Bộ</strong> - 95/100 điểm</li>
+        <li><strong>Bánh Cuốn Bà Hạnh</strong> - 95/100 điểm</li>
+        <li><strong>Cà Phê Giảng</strong> - 94/100 điểm</li>
+        <li><strong>Bánh Mì 25</strong> - 94/100 điểm</li>
+        <li><strong>Phở Thìn</strong> - 93/100 điểm</li>
+        <li><strong>Bún Đậu Mắm Tôm Hàng Khay</strong> - 93/100 điểm</li>
+        <li><strong>Xôi Yến</strong> - 92/100 điểm</li>
       </ol>
       
-      <h2>Tieu chi danh gia</h2>
-      <p>Cac co so duoc cham diem dua tren 5 tieu chi chinh:</p>
+      <h2>Tiêu chí đánh giá</h2>
+      <p>Các cơ sở được chấm điểm dựa trên 5 tiêu chí chính:</p>
       <ul>
-        <li>Co so vat chat va trang thiet bi (20 diem)</li>
-        <li>Nguon goc nguyen lieu (25 diem)</li>
-        <li>Quy trinh che bien (20 diem)</li>
-        <li>Bao quan thuc pham (15 diem)</li>
-        <li>Ve sinh ca nhan cua nhan vien (20 diem)</li>
+        <li>Cơ sở vật chất và trang thiết bị (20 điểm)</li>
+        <li>Nguồn gốc nguyên liệu (25 điểm)</li>
+        <li>Quy trình chế biến (20 điểm)</li>
+        <li>Bảo quản thực phẩm (15 điểm)</li>
+        <li>Vệ sinh cá nhân của nhân viên (20 điểm)</li>
       </ul>
     `,
     date: "10/03/2026",
-    readTime: "6 phut",
+    readTime: "6 phút",
     image: "🍜",
-    category: "Noi bat",
-    author: "Tran Thi B",
-    authorRole: "Phong vien An toan Thuc pham",
+    category: "Nổi bật",
+    author: "Trần Thị B",
+    authorRole: "Phóng viên An toàn Thực phẩm",
   },
   {
     id: 3,
     slug: "bao-cao-kiem-tra-thang-2-2026",
-    title: "Bao cao kiem tra thang 2/2026",
+    title: "Báo cáo kiểm tra tháng 2/2026",
     excerpt:
-      "Tong quan ve cac dot kiem tra an toan thuc pham tai 12 quan trong thang qua.",
+      "Tổng quan về các đợt kiểm tra an toàn thực phẩm tại 12 quận trong tháng qua.",
     content: `
-      <p>Trong thang 2/2026, Doan kiem tra lien nganh da tien hanh kiem tra 856 co so kinh doanh thuc pham tren dia ban 12 quan/huyen cua Ha Noi. Ket qua cho thay tinh hinh an toan thuc pham co nhieu chuyen bien tich cuc.</p>
+      <p>Trong tháng 2/2026, Đoàn kiểm tra liên ngành đã tiến hành kiểm tra 856 cơ sở kinh doanh thực phẩm trên địa bàn 12 quận/huyện của Hà Nội. Kết quả cho thấy tình hình an toàn thực phẩm có nhiều chuyển biến tích cực.</p>
       
-      <h2>Ket qua tong quat</h2>
+      <h2>Kết quả tổng quát</h2>
       <ul>
-        <li>Tong so co so kiem tra: 856</li>
-        <li>Co so dat yeu cau: 809 (94.5%)</li>
-        <li>Co so vi pham: 47 (5.5%)</li>
-        <li>Tong so tien phat: 1.2 ty dong</li>
+        <li>Tổng số cơ sở kiểm tra: 856</li>
+        <li>Cơ sở đạt yêu cầu: 809 (94.5%)</li>
+        <li>Cơ sở vi phạm: 47 (5.5%)</li>
+        <li>Tổng số tiền phạt: 1.2 tỷ đồng</li>
       </ul>
       
-      <h2>Cac vi pham pho bien</h2>
-      <p>Nhung vi pham thuong gap bao gom:</p>
+      <h2>Các vi phạm phổ biến</h2>
+      <p>Những vi phạm thường gặp bao gồm:</p>
       <ul>
-        <li>Khong co giay chung nhan co so du dieu kien ATTP (15 truong hop)</li>
-        <li>Khong co giay kham suc khoe cho nhan vien (12 truong hop)</li>
-        <li>Bao quan thuc pham khong dung quy dinh (10 truong hop)</li>
-        <li>Khong co hop dong nguon goc thuc pham (10 truong hop)</li>
+        <li>Không có giấy chứng nhận cơ sở đủ điều kiện ATTP (15 trường hợp)</li>
+        <li>Không có giấy khám sức khỏe cho nhân viên (12 trường hợp)</li>
+        <li>Bảo quản thực phẩm không đúng quy định (10 trường hợp)</li>
+        <li>Không có hợp đồng nguồn gốc thực phẩm (10 trường hợp)</li>
       </ul>
       
-      <h2>Ke hoach thang tiep theo</h2>
-      <p>Thang 3/2026, doan kiem tra se tap trung vao cac khu vuc co mat do kinh doanh thuc pham cao va cac co so phuc vu khach du lich.</p>
+      <h2>Kế hoạch tháng tiếp theo</h2>
+      <p>Tháng 3/2026, đoàn kiểm tra sẽ tập trung vào các khu vực có mật độ kinh doanh thực phẩm cao và các cơ sở phục vụ khách du lịch.</p>
     `,
     date: "08/03/2026",
-    readTime: "8 phut",
+    readTime: "8 phút",
     image: "📊",
-    category: "Bao cao",
-    author: "Le Van C",
-    authorRole: "Truong doan Kiem tra",
+    category: "Báo cáo",
+    author: "Lê Văn C",
+    authorRole: "Trưởng đoàn Kiểm tra",
   },
   {
     id: 4,
     slug: "cach-nhan-biet-co-so-an-uong-an-toan",
-    title: "Cach nhan biet co so an uong an toan",
+    title: "Cách nhận biết cơ sở ăn uống an toàn",
     excerpt:
-      "Huong dan giup nguoi dan nhan biet cac nha hang va quan an duoc chung nhan an toan.",
+      "Hướng dẫn giúp người dân nhận biết các nhà hàng và quán ăn được chứng nhận an toàn.",
     content: `
-      <p>De bao ve suc khoe ban than va gia dinh, viec lua chon co so an uong dam bao ve sinh an toan thuc pham la vo cung quan trong. Duoi day la nhung dau hieu giup ban nhan biet mot co so an toan.</p>
+      <p>Để bảo vệ sức khỏe bản thân và gia đình, việc lựa chọn cơ sở ăn uống đảm bảo vệ sinh an toàn thực phẩm là vô cùng quan trọng. Dưới đây là những dấu hiệu giúp bạn nhận biết một cơ sở an toàn.</p>
       
-      <h2>Cac dau hieu nhan biet</h2>
+      <h2>Các dấu hiệu nhận biết</h2>
       
-      <h3>1. Giay to phap ly</h3>
+      <h3>1. Giấy tờ pháp lý</h3>
       <ul>
-        <li>Co treo Giay chung nhan co so du dieu kien ATTP</li>
-        <li>Giay phep kinh doanh con hieu luc</li>
-        <li>Bien hieu "Co so an toan thuc pham" (mau xanh)</li>
+        <li>Có treo Giấy chứng nhận cơ sở đủ điều kiện ATTP</li>
+        <li>Giấy phép kinh doanh còn hiệu lực</li>
+        <li>Biển hiệu "Cơ sở an toàn thực phẩm" (màu xanh)</li>
       </ul>
       
-      <h3>2. Co so vat chat</h3>
+      <h3>2. Cơ sở vật chất</h3>
       <ul>
-        <li>Khu vuc che bien sach se, thoang mat</li>
-        <li>Co tu bao quan thuc pham rieng biet</li>
-        <li>Thung rac co nap day</li>
-        <li>Co bon rua tay cho khach</li>
+        <li>Khu vực chế biến sạch sẽ, thoáng mát</li>
+        <li>Có tủ bảo quản thực phẩm riêng biệt</li>
+        <li>Thùng rác có nắp đậy</li>
+        <li>Có bồn rửa tay cho khách</li>
       </ul>
       
-      <h3>3. Nhan vien</h3>
+      <h3>3. Nhân viên</h3>
       <ul>
-        <li>Mac dong phuc sach se</li>
-        <li>Deo tap de, gang tay khi che bien</li>
-        <li>Khong hut thuoc trong khu vuc phuc vu</li>
+        <li>Mặc đồng phục sạch sẽ</li>
+        <li>Đeo tạp dề, găng tay khi chế biến</li>
+        <li>Không hút thuốc trong khu vực phục vụ</li>
       </ul>
       
-      <h2>Su dung ung dung kiem tra</h2>
-      <p>Ban co the su dung ung dung "An toan thuc pham Ha Noi" de kiem tra thong tin cac co so da duoc chung nhan. Ung dung cung cung cap tinh nang phan anh vi pham truc tuyen.</p>
+      <h2>Sử dụng ứng dụng kiểm tra</h2>
+      <p>Bạn có thể sử dụng ứng dụng "An toàn thực phẩm Hà Nội" để kiểm tra thông tin các cơ sở đã được chứng nhận. Ứng dụng cũng cung cấp tính năng phản ánh vi phạm trực tuyến.</p>
     `,
     date: "05/03/2026",
-    readTime: "5 phut",
+    readTime: "5 phút",
     image: "✅",
-    category: "Huong dan",
-    author: "Pham Thi D",
-    authorRole: "Chuyen gia ATTP",
+    category: "Hướng dẫn",
+    author: "Phạm Thị D",
+    authorRole: "Chuyên gia ATTP",
   },
   {
     id: 5,
     slug: "hoi-thao-an-toan-thuc-pham-dong-da",
-    title: "Hoi thao an toan thuc pham thanh cong tai Dong Da",
+    title: "Hội thảo an toàn thực phẩm thành công tại Đống Đa",
     excerpt:
-      "Hon 200 chu nha hang tham du khoa dao tao ve ve sinh an toan thuc pham.",
+      "Hơn 200 chủ nhà hàng tham dự khóa đào tạo về vệ sinh an toàn thực phẩm.",
     content: `
-      <p>Ngay 01/03/2026, UBND quan Dong Da phoi hop voi So Y te Ha Noi to chuc thanh cong Hoi thao "Nang cao nhan thuc ve an toan thuc pham trong kinh doanh an uong" voi su tham gia cua hon 200 chu co so kinh doanh thuc pham.</p>
+      <p>Ngày 01/03/2026, UBND quận Đống Đa phối hợp với Sở Y tế Hà Nội tổ chức thành công Hội thảo "Nâng cao nhận thức về an toàn thực phẩm trong kinh doanh ăn uống" với sự tham gia của hơn 200 chủ cơ sở kinh doanh thực phẩm.</p>
       
-      <h2>Noi dung chinh</h2>
-      <p>Hoi thao tap trung vao cac chu de:</p>
+      <h2>Nội dung chính</h2>
+      <p>Hội thảo tập trung vào các chủ đề:</p>
       <ul>
-        <li>Cap nhat quy dinh moi ve an toan thuc pham</li>
-        <li>Huong dan quy trinh tu kiem tra tai co so</li>
-        <li>Ky nang xu ly su co ve an toan thuc pham</li>
-        <li>Gioi thieu he thong quan ly chat luong theo chuan ISO</li>
+        <li>Cập nhật quy định mới về an toàn thực phẩm</li>
+        <li>Hướng dẫn quy trình tự kiểm tra tại cơ sở</li>
+        <li>Kỹ năng xử lý sự cố về an toàn thực phẩm</li>
+        <li>Giới thiệu hệ thống quản lý chất lượng theo chuẩn ISO</li>
       </ul>
       
-      <h2>Phan hoi tu nguoi tham du</h2>
-      <p>Ong Nguyen Van E, chu quan Bun Bo 123 cho biet: "Hoi thao rat bo ich, toi da hieu ro hon ve cac quy dinh va biet cach ap dung vao thuc te kinh doanh."</p>
+      <h2>Phản hồi từ người tham dự</h2>
+      <p>Ông Nguyễn Văn E, chủ quán Bún Bò 123 cho biết: "Hội thảo rất bổ ích, tôi đã hiểu rõ hơn về các quy định và biết cách áp dụng vào thực tế kinh doanh."</p>
       
-      <h2>Ke hoach tiep theo</h2>
-      <p>Trong quy II/2026, chuong trinh se duoc mo rong toi cac quan Cau Giay, Thanh Xuan va Ha Dong.</p>
+      <h2>Kế hoạch tiếp theo</h2>
+      <p>Trong quý II/2026, chương trình sẽ được mở rộng tới các quận Cầu Giấy, Thanh Xuân và Hà Đông.</p>
     `,
     date: "03/03/2026",
-    readTime: "3 phut",
+    readTime: "3 phút",
     image: "👨‍🍳",
-    category: "Su kien",
-    author: "Hoang Van F",
-    authorRole: "Ban to chuc",
+    category: "Sự kiện",
+    author: "Hoàng Văn F",
+    authorRole: "Ban tổ chức",
   },
   {
     id: 6,
     slug: "ung-dung-di-dong-canh-bao-an-toan-thuc-pham",
-    title: "Ung dung di dong moi canh bao an toan thuc pham",
+    title: "Ứng dụng di động mới cảnh báo an toàn thực phẩm",
     excerpt:
-      "Nguoi dan co the nhan thong bao tuc thi ve cap nhat an toan thuc pham trong khu vuc.",
+      "Người dân có thể nhận thông báo tức thì về cập nhật an toàn thực phẩm trong khu vực.",
     content: `
-      <p>So Y te Ha Noi vua chinh thuc ra mat ung dung "An toan Thuc pham Ha Noi" phien ban 2.0 voi nhieu tinh nang moi, giup nguoi dan de dang truy cap thong tin ve an toan thuc pham.</p>
+      <p>Sở Y tế Hà Nội vừa chính thức ra mắt ứng dụng "An toàn Thực phẩm Hà Nội" phiên bản 2.0 với nhiều tính năng mới, giúp người dân dễ dàng truy cập thông tin về an toàn thực phẩm.</p>
       
-      <h2>Cac tinh nang noi bat</h2>
+      <h2>Các tính năng nổi bật</h2>
       <ul>
-        <li><strong>Ban do co so chung nhan:</strong> Hien thi vi tri cac nha hang, quan an da duoc chung nhan an toan</li>
-        <li><strong>Canh bao theo khu vuc:</strong> Thong bao khi co vi pham trong pham vi 1km</li>
-        <li><strong>Phan anh truc tuyen:</strong> Gui phan anh kem hinh anh ve co so nghi ngo vi pham</li>
-        <li><strong>Lich su kiem tra:</strong> Xem ket qua kiem tra cua cac co so</li>
-        <li><strong>Tin tuc cap nhat:</strong> Thong tin moi nhat ve an toan thuc pham</li>
+        <li><strong>Bản đồ cơ sở chứng nhận:</strong> Hiển thị vị trí các nhà hàng, quán ăn đã được chứng nhận an toàn</li>
+        <li><strong>Cảnh báo theo khu vực:</strong> Thông báo khi có vi phạm trong phạm vi 1km</li>
+        <li><strong>Phản ánh trực tuyến:</strong> Gửi phản ánh kèm hình ảnh về cơ sở nghi ngờ vi phạm</li>
+        <li><strong>Lịch sử kiểm tra:</strong> Xem kết quả kiểm tra của các cơ sở</li>
+        <li><strong>Tin tức cập nhật:</strong> Thông tin mới nhất về an toàn thực phẩm</li>
       </ul>
       
-      <h2>Cach tai va su dung</h2>
-      <p>Ung dung co san tren ca App Store va Google Play. Nguoi dung chi can tim kiem "An toan Thuc pham Ha Noi" va cai dat mien phi.</p>
+      <h2>Cách tải và sử dụng</h2>
+      <p>Ứng dụng có sẵn trên cả App Store và Google Play. Người dùng chỉ cần tìm kiếm "An toàn Thực phẩm Hà Nội" và cài đặt miễn phí.</p>
       
-      <h2>Bao mat thong tin</h2>
-      <p>Ung dung cam ket bao mat thong tin ca nhan cua nguoi dung theo quy dinh cua phap luat Viet Nam.</p>
+      <h2>Bảo mật thông tin</h2>
+      <p>Ứng dụng cam kết bảo mật thông tin cá nhân của người dùng theo quy định của pháp luật Việt Nam.</p>
     `,
     date: "01/03/2026",
-    readTime: "4 phut",
+    readTime: "4 phút",
     image: "📱",
-    category: "Cong nghe",
-    author: "Do Thi G",
-    authorRole: "IT Manager - So Y te",
+    category: "Công nghệ",
+    author: "Đỗ Thị G",
+    authorRole: "IT Manager - Sở Y tế",
   },
 ];
 

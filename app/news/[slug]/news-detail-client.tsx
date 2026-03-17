@@ -76,7 +76,7 @@ export function NewsDetailClient({
                 className="mb-6 rounded-full hover:bg-muted"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Quay lai
+                Quay lại
               </Button>
             </Link>
           </motion.div>
@@ -164,7 +164,7 @@ export function NewsDetailClient({
                 className="rounded-full bg-card/80 backdrop-blur-sm border-border/50"
               >
                 <Share2 className="w-4 h-4 mr-2" />
-                Chia se
+                Chia sẻ
               </Button>
             </div>
           </motion.div>
@@ -206,7 +206,7 @@ export function NewsDetailClient({
             >
               <div className="p-6 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm">
                 <h3 className="text-lg font-semibold text-foreground mb-4">
-                  Bai viet lien quan
+                  Bài viết liên quan
                 </h3>
                 <div className="space-y-4">
                   {relatedArticles.map((related) => (
@@ -231,7 +231,7 @@ export function NewsDetailClient({
                   className="rounded-full px-6 border-border hover:bg-muted"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  Tat ca tin tuc
+                  Tất cả tin tức
                 </Button>
               </Link>
               <div className="flex items-center gap-3">

@@ -37,7 +37,7 @@ import { StylizedHanoiMap } from "@/components/stylized-hanoi-map";
 import { foodPlaces, districts, type FoodPlace } from "@/lib/map-data";
 
 type StatusFilter = "all" | "safe" | "violation" | "review";
-type TypeFilter = "all" | "Nha hang" | "Quan an" | "Quan ca phe" | "Hang rong";
+type TypeFilter = "all" | "Nhà hàng" | "Quán ăn" | "Quán cà phê" | "Hàng rong";
 
 function getStatusColor(status: FoodPlace["status"]) {
   switch (status) {
@@ -71,23 +71,23 @@ function getStatusColor(status: FoodPlace["status"]) {
 function getStatusLabel(status: FoodPlace["status"]) {
   switch (status) {
     case "safe":
-      return "Chung nhan an toan";
+      return "Chứng nhận an toàn";
     case "violation":
-      return "Phat hien vi pham";
+      return "Phát hiện vi phạm";
     case "review":
-      return "Dang xem xet";
+      return "Đang xem xét";
   }
 }
 
 function getTypeIcon(type: string) {
   switch (type) {
-    case "Nha hang":
+    case "Nhà hàng":
       return Building2;
-    case "Quan an":
+    case "Quán ăn":
       return Utensils;
-    case "Quan ca phe":
+    case "Quán cà phê":
       return Coffee;
-    case "Hang rong":
+    case "Hàng rong":
       return ChefHat;
     default:
       return Utensils;
@@ -254,7 +254,7 @@ function PlaceDetailModal({
         {/* Status Badge */}
         <div className={`mt-4 px-4 py-2 rounded-xl ${colors.bgLight} ${colors.border} border flex items-center justify-between`}>
           <span className={`font-medium ${colors.text}`}>{getStatusLabel(place.status)}</span>
-          <span className="text-sm text-muted-foreground">Cap nhat: {place.lastInspection}</span>
+          <span className="text-sm text-muted-foreground">Cập nhật: {place.lastInspection}</span>
         </div>
 
         {/* Info Grid */}
@@ -262,7 +262,7 @@ function PlaceDetailModal({
           <div className="p-3 rounded-xl bg-muted/50 border border-border/50">
             <div className="flex items-center gap-2 text-muted-foreground text-xs">
               <Star className="w-3.5 h-3.5" />
-              Danh gia
+              Đánh giá
             </div>
             <div className="mt-1 text-lg font-bold text-foreground flex items-center gap-1">
               {place.rating}
@@ -272,7 +272,7 @@ function PlaceDetailModal({
           <div className="p-3 rounded-xl bg-muted/50 border border-border/50">
             <div className="flex items-center gap-2 text-muted-foreground text-xs">
               <TypeIcon className="w-3.5 h-3.5" />
-              Loai hinh
+              Loại hình
             </div>
             <div className="mt-1 text-lg font-bold text-foreground">{place.type}</div>
           </div>
@@ -286,7 +286,7 @@ function PlaceDetailModal({
               <span>{place.phone}</span>
             </div>
             <Button size="sm" variant="outline" className="rounded-full text-xs">
-              Goi ngay
+              Gọi ngay
             </Button>
           </div>
         )}
@@ -295,7 +295,7 @@ function PlaceDetailModal({
         <div className="mt-4">
           <div className="flex items-center gap-2 text-sm font-medium text-foreground mb-3">
             <History className="w-4 h-4" />
-            Lich su kiem tra
+            Lịch sử kiểm tra
           </div>
           <div className="space-y-2">
             {place.inspectionHistory.map((inspection, idx) => (
@@ -317,9 +317,9 @@ function PlaceDetailModal({
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-foreground">
-                      {inspection.result === "pass" && "Dat"}
-                      {inspection.result === "fail" && "Khong dat"}
-                      {inspection.result === "pending" && "Cho xu ly"}
+                      {inspection.result === "pass" && "Đạt"}
+                      {inspection.result === "fail" && "Không đạt"}
+                      {inspection.result === "pending" && "Chờ xử lý"}
                     </span>
                     <span className="text-xs text-muted-foreground flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
@@ -394,14 +394,14 @@ export function InteractiveMapClient() {
             <Link href="/">
               <Button variant="ghost" size="sm" className="rounded-full hover:bg-muted">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Trang chu
+                Trang chủ
               </Button>
             </Link>
 
             <div className="flex-1 max-w-md relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
-                placeholder="Tim kiem nha hang, dia chi..."
+                placeholder="Tìm kiếm nhà hàng, địa chỉ..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 rounded-full bg-muted/50 border-border/50 focus:border-primary/50"
@@ -423,7 +423,7 @@ export function InteractiveMapClient() {
               onClick={() => setShowFilters(!showFilters)}
             >
               <Filter className="w-4 h-4 mr-2" />
-              Bo loc
+              Bộ lọc
               <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${showFilters ? "rotate-180" : ""}`} />
             </Button>
           </div>
@@ -440,7 +440,7 @@ export function InteractiveMapClient() {
                 <div className="max-w-7xl mx-auto pt-4 pb-2 flex flex-wrap gap-4">
                   {/* Status Filter */}
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">Trang thai:</span>
+                    <span className="text-sm text-muted-foreground">Trạng thái:</span>
                     <div className="flex gap-1">
                       {(["all", "safe", "violation", "review"] as StatusFilter[]).map((status) => (
                         <button
@@ -452,10 +452,10 @@ export function InteractiveMapClient() {
                               : "bg-muted/50 text-muted-foreground hover:bg-muted"
                           }`}
                         >
-                          {status === "all" && "Tat ca"}
-                          {status === "safe" && "An toan"}
-                          {status === "violation" && "Vi pham"}
-                          {status === "review" && "Xem xet"}
+                          {status === "all" && "Tất cả"}
+                          {status === "safe" && "An toàn"}
+                          {status === "violation" && "Vi phạm"}
+                          {status === "review" && "Xem xét"}
                         </button>
                       ))}
                     </div>
@@ -463,9 +463,9 @@ export function InteractiveMapClient() {
 
                   {/* Type Filter */}
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">Loai:</span>
+                    <span className="text-sm text-muted-foreground">Loại:</span>
                     <div className="flex gap-1">
-                      {(["all", "Nha hang", "Quan an", "Quan ca phe", "Hang rong"] as TypeFilter[]).map((type) => (
+                      {(["all", "Nhà hàng", "Quán ăn", "Quán cà phê", "Hàng rong"] as TypeFilter[]).map((type) => (
                         <button
                           key={type}
                           onClick={() => setTypeFilter(type)}
@@ -475,7 +475,7 @@ export function InteractiveMapClient() {
                               : "bg-muted/50 text-muted-foreground hover:bg-muted"
                           }`}
                         >
-                          {type === "all" ? "Tat ca" : type}
+                          {type === "all" ? "Tất cả" : type}
                         </button>
                       ))}
                     </div>
@@ -495,19 +495,19 @@ export function InteractiveMapClient() {
               <div className="grid grid-cols-3 gap-2">
                 <div className="p-3 rounded-xl bg-primary/10 border border-primary/20 text-center">
                   <div className="text-lg font-bold text-primary">{stats.safe}</div>
-                  <div className="text-xs text-muted-foreground">An toan</div>
+                  <div className="text-xs text-muted-foreground">An toàn</div>
                 </div>
                 <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-center">
                   <div className="text-lg font-bold text-destructive">{stats.violation}</div>
-                  <div className="text-xs text-muted-foreground">Vi pham</div>
+                  <div className="text-xs text-muted-foreground">Vi phạm</div>
                 </div>
                 <div className="p-3 rounded-xl bg-secondary/20 border border-secondary/30 text-center">
                   <div className="text-lg font-bold text-secondary-foreground">{stats.review}</div>
-                  <div className="text-xs text-muted-foreground">Xem xet</div>
+                  <div className="text-xs text-muted-foreground">Xem xét</div>
                 </div>
               </div>
               <p className="mt-3 text-xs text-muted-foreground text-center">
-                Hien thi {stats.total} co so trong khu vuc
+                Hiển thị {stats.total} cơ sở trong khu vực
               </p>
             </div>
 
@@ -529,7 +529,7 @@ export function InteractiveMapClient() {
                   <div className="w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center mx-auto mb-4">
                     <Search className="w-8 h-8 text-muted-foreground" />
                   </div>
-                  <p className="text-muted-foreground">Khong tim thay ket qua</p>
+                  <p className="text-muted-foreground">Không tìm thấy kết quả</p>
                   <Button
                     variant="link"
                     className="mt-2 text-primary"
@@ -539,7 +539,7 @@ export function InteractiveMapClient() {
                       setTypeFilter("all");
                     }}
                   >
-                    Xoa bo loc
+                    Xóa bộ lọc
                   </Button>
                 </div>
               )}
@@ -589,24 +589,24 @@ export function InteractiveMapClient() {
 
               {/* Header */}
               <div className="absolute top-4 left-4 px-4 py-2 rounded-xl bg-card/90 backdrop-blur-sm border border-border/50 shadow-lg">
-                <span className="text-sm font-semibold text-foreground">Ha Noi, Viet Nam</span>
+                <span className="text-sm font-semibold text-foreground">Hà Nội, Việt Nam</span>
               </div>
 
               {/* Legend */}
               <div className="absolute bottom-4 left-4 p-3 rounded-xl bg-card/90 backdrop-blur-sm border border-border/50 shadow-lg">
-                <div className="text-xs font-medium text-foreground mb-2">Chu thich</div>
+                <div className="text-xs font-medium text-foreground mb-2">Chú thích</div>
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-primary shadow-lg" />
-                    <span className="text-xs text-muted-foreground">An toan</span>
+                    <span className="text-xs text-muted-foreground">An toàn</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-destructive shadow-lg" />
-                    <span className="text-xs text-muted-foreground">Vi pham</span>
+                    <span className="text-xs text-muted-foreground">Vi phạm</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-secondary shadow-lg" />
-                    <span className="text-xs text-muted-foreground">Xem xet</span>
+                    <span className="text-xs text-muted-foreground">Xem xét</span>
                   </div>
                 </div>
               </div>

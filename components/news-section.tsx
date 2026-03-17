@@ -118,11 +118,11 @@ export function NewsSection() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl sm:text-4xl font-bold text-foreground text-balance">
-            Tin tuc an toan thuc pham
+            Tin tức an toàn thực phẩm
           </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            Cap nhat cac quy dinh, bao cao kiem tra va tin tuc cong dong moi nhat
-            ve an toan thuc pham
+            Cập nhật các quy định, báo cáo kiểm tra và tin tức cộng đồng mới nhất
+            về an toàn thực phẩm
           </p>
         </motion.div>
 
@@ -145,7 +145,7 @@ export function NewsSection() {
             size="lg"
             className="rounded-full px-8 border-border hover:bg-card"
           >
-            Xem tat ca tin tuc
+            Xem tất cả tin tức
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </motion.div>
