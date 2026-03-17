@@ -1,449 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Search,
-  Menu,
-  X,
-  Shield,
-  Utensils,
-  MapPin,
-  Newspaper,
-  Clock,
-  TrendingUp,
-  Loader2,
-  ArrowRight,
-} from "lucide-react";
-import {
-  searchAll,
-  highlightMatch,
-  getRecentSearches,
-  addRecentSearch,
-  clearRecentSearches,
-  type GroupedSearchResults,
-  type SearchResult,
-} from "@/lib/search-utils";
-
-// Debounce hook
-function useDebounce<T>(value: T, delay: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-}
-
-// Trending keywords (static)
-const trendingKeywords = ["Phở", "Bún chả", "Hoàn Kiếm", "An toàn", "Vi phạm"];
-
-// Search input with dropdown component
-function SearchInput({ isMobile = false }: { isMobile?: boolean }) {
-  const router = useRouter();
-  const [query, setQuery] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [results, setResults] = useState<GroupedSearchResults | null>(null);
-  const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const debouncedQuery = useDebounce(query, 300);
-
-  // Load recent searches on mount
-  useEffect(() => {
-    setRecentSearches(getRecentSearches());
-  }, []);
-
-  // Search when debounced query changes
-  useEffect(() => {
-    if (debouncedQuery.length >= 2) {
-      setIsLoading(true);
-      // Simulate async search (in real app this would be an API call)
-      const timer = setTimeout(() => {
-        const searchResults = searchAll(debouncedQuery, 3);
-        setResults(searchResults);
-        setIsLoading(false);
-        setSelectedIndex(-1);
-      }, 100);
-      return () => clearTimeout(timer);
-    } else {
-      setResults(null);
-      setIsLoading(false);
-    }
-  }, [debouncedQuery]);
-
-  // Click outside handler
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // Get all flat results for keyboard navigation
-  const getAllResults = useCallback((): SearchResult[] => {
-    if (!results) return [];
-    return [...results.places, ...results.news, ...results.districts];
-  }, [results]);
-
-  // Keyboard navigation
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    const allResults = getAllResults();
-
-    switch (e.key) {
-      case "ArrowDown":
-        e.preventDefault();
-        setSelectedIndex((prev) => Math.min(prev + 1, allResults.length - 1));
-        break;
-      case "ArrowUp":
-        e.preventDefault();
-        setSelectedIndex((prev) => Math.max(prev - 1, -1));
-        break;
-      case "Enter":
-        e.preventDefault();
-        if (selectedIndex >= 0 && allResults[selectedIndex]) {
-          navigateToResult(allResults[selectedIndex]);
-        } else if (query.trim()) {
-          navigateToSearch();
-        }
-        break;
-      case "Escape":
-        setIsOpen(false);
-        inputRef.current?.blur();
-        break;
-    }
-  };
-
-  const navigateToResult = (result: SearchResult) => {
-    addRecentSearch(query);
-    setRecentSearches(getRecentSearches());
-    setIsOpen(false);
-    setQuery("");
-    router.push(result.url);
-  };
-
-  const navigateToSearch = () => {
-    if (query.trim()) {
-      addRecentSearch(query);
-      setRecentSearches(getRecentSearches());
-      setIsOpen(false);
-      router.push(`/search?q=${encodeURIComponent(query.trim())}`);
-      setQuery("");
-    }
-  };
-
-  const handleRecentClick = (term: string) => {
-    setQuery(term);
-    inputRef.current?.focus();
-  };
-
-  const handleTrendingClick = (term: string) => {
-    setQuery(term);
-    inputRef.current?.focus();
-  };
-
-  const handleClearRecent = () => {
-    clearRecentSearches();
-    setRecentSearches([]);
-  };
-
-  const hasResults = results && results.total > 0;
-  const showDropdown = isOpen && (query.length >= 2 || recentSearches.length > 0 || true);
-
-  // Render highlighted text
-  const renderHighlightedText = (text: string, maxLength?: number) => {
-    const displayText = maxLength && text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-    const parts = highlightMatch(displayText, query);
-    return parts.map((part, i) =>
-      part.highlight ? (
-        <mark key={i} className="bg-primary/20 text-foreground rounded px-0.5">
-          {part.text}
-        </mark>
-      ) : (
-        <span key={i}>{part.text}</span>
-      )
-    );
-  };
-
-  // Get result type icon
-  const getResultIcon = (type: string) => {
-    switch (type) {
-      case "place":
-        return <Utensils className="w-4 h-4" />;
-      case "news":
-        return <Newspaper className="w-4 h-4" />;
-      case "district":
-        return <MapPin className="w-4 h-4" />;
-      default:
-        return <Search className="w-4 h-4" />;
-    }
-  };
-
-  // Calculate global index for keyboard navigation
-  let globalIndex = 0;
-
-  return (
-    <div ref={containerRef} className="relative w-full">
-      <div
-        className={`relative flex items-center rounded-full border transition-all duration-300 ${
-          isOpen
-            ? "border-primary bg-card shadow-lg shadow-primary/10"
-            : "border-border bg-muted/50"
-        }`}
-      >
-        <Search className="w-4 h-4 text-muted-foreground ml-4 flex-shrink-0" />
-        <input
-          ref={inputRef}
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onFocus={() => setIsOpen(true)}
-          onKeyDown={handleKeyDown}
-          placeholder={isMobile ? "Tìm nhà hàng..." : "Tìm nhà hàng, quán ăn, quán cà phê..."}
-          className="w-full py-2.5 px-3 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
-        />
-        {query && (
-          <button
-            onClick={() => {
-              setQuery("");
-              inputRef.current?.focus();
-            }}
-            className="mr-2 p-1 rounded-full hover:bg-muted transition-colors"
-          >
-            <X className="w-4 h-4 text-muted-foreground" />
-          </button>
-        )}
-        {isLoading && (
-          <Loader2 className="w-4 h-4 text-muted-foreground mr-4 animate-spin" />
-        )}
-      </div>
-
-      {/* Dropdown */}
-      <AnimatePresence>
-        {showDropdown && (
-          <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.98 }}
-            transition={{ duration: 0.15 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-2xl shadow-xl overflow-hidden z-50"
-          >
-            {/* Loading state */}
-            {isLoading && query.length >= 2 && (
-              <div className="p-4 flex items-center justify-center gap-2 text-muted-foreground">
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span className="text-sm">Đang tìm kiếm...</span>
-              </div>
-            )}
-
-            {/* Results */}
-            {!isLoading && hasResults && (
-              <div className="max-h-80 overflow-y-auto">
-                {/* Places */}
-                {results.places.length > 0 && (
-                  <div className="p-2">
-                    <div className="px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                      Địa điểm
-                    </div>
-                    {results.places.map((result) => {
-                      const currentIndex = globalIndex++;
-                      return (
-                        <button
-                          key={result.id}
-                          onClick={() => navigateToResult(result)}
-                          className={`w-full flex items-start gap-3 px-3 py-2.5 rounded-xl text-left transition-colors ${
-                            selectedIndex === currentIndex
-                              ? "bg-primary/10"
-                              : "hover:bg-muted/50"
-                          }`}
-                        >
-                          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
-                            {getResultIcon(result.type)}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium text-foreground truncate">
-                              {renderHighlightedText(result.title)}
-                            </div>
-                            <div className="text-xs text-muted-foreground truncate">
-                              {renderHighlightedText(result.subtitle, 50)}
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {/* News */}
-                {results.news.length > 0 && (
-                  <div className="p-2 border-t border-border/50">
-                    <div className="px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                      Tin tức
-                    </div>
-                    {results.news.map((result) => {
-                      const currentIndex = globalIndex++;
-                      return (
-                        <button
-                          key={result.id}
-                          onClick={() => navigateToResult(result)}
-                          className={`w-full flex items-start gap-3 px-3 py-2.5 rounded-xl text-left transition-colors ${
-                            selectedIndex === currentIndex
-                              ? "bg-primary/10"
-                              : "hover:bg-muted/50"
-                          }`}
-                        >
-                          <div className="w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center text-secondary-foreground flex-shrink-0">
-                            {getResultIcon(result.type)}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium text-foreground truncate">
-                              {renderHighlightedText(result.title, 40)}
-                            </div>
-                            <div className="text-xs text-muted-foreground truncate">
-                              {renderHighlightedText(result.subtitle, 50)}
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {/* Districts */}
-                {results.districts.length > 0 && (
-                  <div className="p-2 border-t border-border/50">
-                    <div className="px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                      Khu vực
-                    </div>
-                    {results.districts.map((result) => {
-                      const currentIndex = globalIndex++;
-                      return (
-                        <button
-                          key={result.id}
-                          onClick={() => navigateToResult(result)}
-                          className={`w-full flex items-start gap-3 px-3 py-2.5 rounded-xl text-left transition-colors ${
-                            selectedIndex === currentIndex
-                              ? "bg-primary/10"
-                              : "hover:bg-muted/50"
-                          }`}
-                        >
-                          <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-muted-foreground flex-shrink-0">
-                            {getResultIcon(result.type)}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium text-foreground">
-                              {renderHighlightedText(result.title)}
-                            </div>
-                            <div className="text-xs text-muted-foreground">
-                              {result.subtitle}
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {/* View all results */}
-                {results.total > 0 && (
-                  <div className="p-2 border-t border-border/50">
-                    <button
-                      onClick={navigateToSearch}
-                      className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-primary hover:bg-primary/10 transition-colors"
-                    >
-                      Xem tất cả {results.total} kết quả
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* No results */}
-            {!isLoading && query.length >= 2 && !hasResults && (
-              <div className="p-6 text-center">
-                <Search className="w-8 h-8 text-muted-foreground/50 mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">
-                  Không tìm thấy kết quả cho "{query}"
-                </p>
-              </div>
-            )}
-
-            {/* Recent searches & Trending (when no query) */}
-            {!isLoading && query.length < 2 && (
-              <div className="p-2">
-                {/* Recent searches */}
-                {recentSearches.length > 0 && (
-                  <div className="mb-2">
-                    <div className="flex items-center justify-between px-3 py-1.5">
-                      <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                        <Clock className="w-3 h-3" />
-                        Tìm kiếm gần đây
-                      </div>
-                      <button
-                        onClick={handleClearRecent}
-                        className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-                      >
-                        Xóa
-                      </button>
-                    </div>
-                    <div className="flex flex-wrap gap-1.5 px-3 py-1">
-                      {recentSearches.map((term, i) => (
-                        <button
-                          key={i}
-                          onClick={() => handleRecentClick(term)}
-                          className="px-3 py-1.5 text-xs rounded-full bg-muted hover:bg-muted/80 text-foreground transition-colors"
-                        >
-                          {term}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Trending */}
-                <div>
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                    <TrendingUp className="w-3 h-3" />
-                    Xu hướng tìm kiếm
-                  </div>
-                  <div className="flex flex-wrap gap-1.5 px-3 py-1">
-                    {trendingKeywords.map((term, i) => (
-                      <button
-                        key={i}
-                        onClick={() => handleTrendingClick(term)}
-                        className="px-3 py-1.5 text-xs rounded-full bg-primary/10 hover:bg-primary/20 text-primary transition-colors"
-                      >
-                        {term}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
+import { Search, Menu, X, Shield, Utensils } from "lucide-react";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   return (
     <motion.header
@@ -454,8 +17,7 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <motion.a
-            href="/"
+          <motion.div
             className="flex items-center gap-2"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -473,12 +35,32 @@ export function Header() {
                 An Toàn Thực Phẩm HN
               </span>
             </div>
-          </motion.a>
+          </motion.div>
 
           {/* Search Bar - Center */}
-          <div className="flex-1 max-w-md mx-4 hidden md:block">
-            <SearchInput />
-          </div>
+          <motion.div
+            className="flex-1 max-w-md mx-4 hidden md:block"
+            animate={{
+              scale: isSearchFocused ? 1.02 : 1,
+            }}
+          >
+            <div
+              className={`relative flex items-center rounded-full border transition-all duration-300 ${
+                isSearchFocused
+                  ? "border-primary bg-card shadow-lg shadow-primary/10"
+                  : "border-border bg-muted/50"
+              }`}
+            >
+              <Search className="w-4 h-4 text-muted-foreground ml-4" />
+              <input
+                type="text"
+                placeholder="Tìm nhà hàng, quán ăn, quán cà phê..."
+                className="w-full py-2.5 px-3 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+                onFocus={() => setIsSearchFocused(true)}
+                onBlur={() => setIsSearchFocused(false)}
+              />
+            </div>
+          </motion.div>
 
           {/* Menu Button */}
           <motion.button
@@ -515,7 +97,14 @@ export function Header() {
 
         {/* Mobile Search */}
         <div className="md:hidden pb-3">
-          <SearchInput isMobile />
+          <div className="relative flex items-center rounded-full border border-border bg-muted/50">
+            <Search className="w-4 h-4 text-muted-foreground ml-4" />
+            <input
+              type="text"
+              placeholder="Tìm nhà hàng..."
+              className="w-full py-2.5 px-3 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+            />
+          </div>
         </div>
       </div>
 
