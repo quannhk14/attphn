@@ -3,7 +3,6 @@ import { HeroSection } from "@/components/hero-section";
 import { FoodPlacesSection } from "@/components/food-places-section";
 import { MapPreviewSection } from "@/components/map-preview-section";
 import { NewsSection } from "@/components/news-section";
-import { StatisticsSection } from "@/components/statistics-section";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
@@ -14,8 +13,6 @@ export default function Home() {
       <NewsSection />
       <FoodPlacesSection />
       <MapPreviewSection />
-      <StatisticsSection />
-
       <Footer />
     </main>
   );

@@ -1,9 +1,174 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight, MapPin } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { ArrowRight, MapPin, Shield, ClipboardCheck, AlertTriangle, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Hero3DScene } from "./hero-3d-scene";
+
+interface Stat {
+  icon: React.ElementType;
+  value: number;
+  suffix?: string;
+  label: string;
+  color: string;
+  bgColor: string;
+  glowColor: string;
+}
+
+const stats: Stat[] = [
+  {
+    icon: Shield,
+    value: 2547,
+    label: "Nhà hàng chứng nhận",
+    color: "text-primary",
+    bgColor: "bg-primary/10",
+    glowColor: "shadow-primary/20",
+  },
+  {
+    icon: ClipboardCheck,
+    value: 856,
+    label: "Kiểm tra trong tháng",
+    color: "text-chart-3",
+    bgColor: "bg-chart-3/10",
+    glowColor: "shadow-chart-3/20",
+  },
+  {
+    icon: AlertTriangle,
+    value: 47,
+    label: "Vi phạm phát hiện",
+    color: "text-destructive",
+    bgColor: "bg-destructive/10",
+    glowColor: "shadow-destructive/20",
+  },
+  {
+    icon: MapPin,
+    value: 12,
+    label: "Quận/Huyện",
+    color: "text-secondary",
+    bgColor: "bg-secondary/20",
+    glowColor: "shadow-secondary/20",
+  },
+];
+
+function AnimatedCounter({
+  value,
+  suffix = "",
+}: {
+  value: number;
+  suffix?: string;
+}) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (isInView) {
+      const duration = 2000;
+      const steps = 60;
+      const increment = value / steps;
+      let current = 0;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= value) {
+          setCount(value);
+          clearInterval(timer);
+        } else {
+          setCount(Math.floor(current));
+        }
+      }, duration / steps);
+      return () => clearInterval(timer);
+    }
+  }, [isInView, value]);
+
+  return (
+    <span ref={ref}>
+      {count.toLocaleString()}
+      {suffix}
+    </span>
+  );
+}
+
+function FloatingStatCard({ stat, index }: { stat: Stat; index: number }) {
+  const Icon = stat.icon;
+  
+  // Stable positions based on index
+  const positions = [
+    { x: 0, y: 0 },
+    { x: 5, y: 3 },
+    { x: -3, y: 5 },
+    { x: 2, y: -2 },
+  ];
+  
+  const pos = positions[index % positions.length];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ delay: 0.8 + index * 0.15, duration: 0.6, type: "spring" }}
+      whileHover={{ 
+        y: -8, 
+        scale: 1.05,
+        transition: { duration: 0.3 }
+      }}
+      className="relative group cursor-default"
+    >
+      {/* Glow effect on hover */}
+      <motion.div
+        className={`absolute -inset-1 rounded-2xl ${stat.bgColor} blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+      />
+      
+      {/* Card */}
+      <motion.div 
+        className={`relative bg-card/80 backdrop-blur-xl rounded-2xl border border-border/50 p-4 sm:p-5 shadow-xl ${stat.glowColor} hover:shadow-2xl hover:border-border transition-all duration-300`}
+        animate={{
+          y: [pos.y, pos.y + 6, pos.y],
+        }}
+        transition={{
+          duration: 4 + index * 0.5,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: index * 0.3,
+        }}
+      >
+        <div className="flex items-center gap-3">
+          {/* Icon */}
+          <motion.div
+            className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl ${stat.bgColor} flex items-center justify-center shrink-0`}
+            whileHover={{ rotate: [0, -10, 10, 0] }}
+            transition={{ duration: 0.5 }}
+          >
+            <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${stat.color}`} />
+          </motion.div>
+
+          <div>
+            {/* Value with counter */}
+            <div className="text-xl sm:text-2xl font-bold text-foreground">
+              <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+            </div>
+
+            {/* Label */}
+            <div className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">
+              {stat.label}
+            </div>
+          </div>
+        </div>
+
+        {/* Trend indicator */}
+        <motion.div 
+          className="mt-2 flex items-center gap-1 text-xs text-primary"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 + index * 0.1 }}
+        >
+          <TrendingUp className="w-3 h-3" />
+          <span>+12%</span>
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  );
+}
 
 export function HeroSection() {
   return (
@@ -12,6 +177,7 @@ export function HeroSection() {
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
       </div>
 
       {/* 3D Scene */}
@@ -37,7 +203,7 @@ export function HeroSection() {
             >
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               <span className="text-sm font-medium text-primary">
-                50.000+ người Hà Nội tin dùng
+                50.000+ nguoi Ha Noi tin dung
               </span>
             </motion.div>
 
@@ -48,9 +214,9 @@ export function HeroSection() {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance"
             >
-              Ăn Ngon An Toàn tại{" "}
+              An Ngon An Toan tai{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/70">
-                Hà Nội
+                Ha Noi
               </span>
             </motion.h1>
 
@@ -61,8 +227,8 @@ export function HeroSection() {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-lg leading-relaxed"
             >
-              Khám phá các nhà hàng và quán ăn đường phố được chứng nhận an toàn
-              trên toàn thành phố. Nền tảng tin cậy về an toàn thực phẩm.
+              Kham pha cac nha hang va quan an duong pho duoc chung nhan an toan
+              tren toan thanh pho. Nen tang tin cay ve an toan thuc pham.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -76,7 +242,7 @@ export function HeroSection() {
                 size="lg"
                 className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-8 shadow-lg shadow-primary/25 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
               >
-                Khám phá nhà hàng an toàn
+                Kham pha nha hang an toan
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button
@@ -85,31 +251,8 @@ export function HeroSection() {
                 className="rounded-full px-8 border-border hover:bg-muted text-foreground"
               >
                 <MapPin className="mr-2 w-4 h-4" />
-                Xem bản đồ thực phẩm
+                Xem ban do thuc pham
               </Button>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-              className="mt-12 grid grid-cols-3 gap-8"
-            >
-              {[
-                { value: "2.500+", label: "Địa điểm chứng nhận" },
-                { value: "12", label: "Quận/Huyện" },
-                { value: "99,2%", label: "Độ chính xác" },
-              ].map((stat, i) => (
-                <div key={i}>
-                  <div className="text-2xl sm:text-3xl font-bold text-foreground">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
             </motion.div>
           </motion.div>
 
@@ -138,7 +281,7 @@ export function HeroSection() {
                   animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 3, repeat: Infinity }}
                 >
-                  🍜
+                  {"🍜"}
                 </motion.div>
                 <div className="flex justify-center gap-3 mb-4">
                   {["🥢", "🍲", "🥟", "☕", "🍱"].map((emoji, i) => (
@@ -164,7 +307,7 @@ export function HeroSection() {
                 >
                   <span className="w-2 h-2 rounded-full bg-primary-foreground animate-pulse" />
                   <span className="text-sm font-medium">
-                    Chứng nhận an toàn
+                    Chung nhan an toan
                   </span>
                 </motion.div>
               </div>
@@ -190,6 +333,44 @@ export function HeroSection() {
             </div>
           </div>
         </div>
+
+        {/* Floating Statistics Cards - Integrated into Hero */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7 }}
+          className="mt-16 lg:mt-24"
+        >
+          {/* Section label */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.75 }}
+            className="flex items-center justify-center gap-3 mb-8"
+          >
+            <div className="h-px w-12 bg-border" />
+            <span className="text-sm font-medium text-muted-foreground">Thong ke truc tiep</span>
+            <div className="h-px w-12 bg-border" />
+          </motion.div>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {stats.map((stat, index) => (
+              <FloatingStatCard key={stat.label} stat={stat} index={index} />
+            ))}
+          </div>
+
+          {/* Live indicator */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5 }}
+            className="mt-8 flex items-center justify-center gap-2 text-sm text-muted-foreground"
+          >
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            <span>Du lieu cap nhat lien tuc</span>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Bottom gradient */}
