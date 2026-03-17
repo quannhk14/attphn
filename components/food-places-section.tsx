@@ -575,7 +575,7 @@ export function FoodPlacesSection() {
               className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-6 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all hover:-translate-y-0.5 whitespace-nowrap"
             >
               <FileWarning className="mr-2 w-4 h-4" />
-              Dang ky / Phan anh ATTP
+              Đăng ký / Phản ánh ATTP
             </Button>
           </motion.div>
         </motion.div>
@@ -606,7 +606,7 @@ export function FoodPlacesSection() {
               )}
               <span className="relative flex items-center gap-2">
                 <Shield className="w-4 h-4" />
-                An toan
+                An toàn
               </span>
             </button>
             <button
@@ -626,7 +626,7 @@ export function FoodPlacesSection() {
               )}
               <span className="relative flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4" />
-                Vi pham
+                Vi phạm
               </span>
             </button>
           </div>
@@ -669,7 +669,7 @@ export function FoodPlacesSection() {
             size="lg"
             className="rounded-full px-8 border-border hover:bg-muted"
           >
-            Xem tat ca
+            Xem tất cả
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </motion.div>
