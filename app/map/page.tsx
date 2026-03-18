@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { InteractiveMapClient } from "./interactive-map-client";
 
+export const dynamic = 'force-static';
+
 export const metadata: Metadata = {
   title: "Ban do An toan Thuc pham | Ha Noi",
   description:

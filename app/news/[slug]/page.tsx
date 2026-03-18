@@ -2,7 +2,9 @@ import { notFound } from "next/navigation";
 import { getArticleBySlug, getRelatedArticles, newsArticles } from "@/lib/news-data";
 import { NewsDetailClient } from "./news-detail-client";
 
-export async function generateStaticParams() {
+export const dynamic = 'force-static';
+
+export function generateStaticParams() {
   return newsArticles.map((article) => ({
     slug: article.slug,
   }));
