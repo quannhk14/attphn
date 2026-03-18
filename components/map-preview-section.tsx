@@ -7,6 +7,11 @@ import { Button } from "@/components/ui/button";
 import { StylizedHanoiMap } from "./stylized-hanoi-map";
 import Link from "next/link";
 
+// Format number with dots as thousand separators (consistent across server/client)
+function formatNumber(num: number): string {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 const mapPins = [
   {
     id: 1,
@@ -320,7 +325,7 @@ export function MapPreviewSection() {
                     </div>
                   </div>
                   <div className="text-lg font-bold text-foreground">
-                    {item.count.toLocaleString()}
+                    {formatNumber(item.count)}
                   </div>
                 </motion.div>
               ))}

@@ -5,6 +5,8 @@ import { MapPreviewSection } from "@/components/map-preview-section";
 import { NewsSection } from "@/components/news-section";
 import { Footer } from "@/components/footer";
 
+export const dynamic = 'force-static';
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-background">

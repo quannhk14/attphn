@@ -3,6 +3,8 @@ import { SearchPageClient } from "./search-page-client";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
+export const dynamic = 'force-static';
+
 export const metadata = {
   title: "Tìm kiếm - An Toàn Thực Phẩm Hà Nội",
   description: "Tìm kiếm nhà hàng, quán ăn, tin tức về an toàn thực phẩm tại Hà Nội",

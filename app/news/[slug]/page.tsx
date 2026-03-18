@@ -2,15 +2,16 @@ import { notFound } from "next/navigation";
 import { getArticleBySlug, getRelatedArticles, newsArticles } from "@/lib/news-data";
 import { NewsDetailClient } from "./news-detail-client";
 
-export async function generateStaticParams() {
+export const dynamic = 'force-static';
+
+export function generateStaticParams() {
   return newsArticles.map((article) => ({
     slug: article.slug,
   }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const article = getArticleBySlug(slug);
+export function generateMetadata({ params }: { params: { slug: string } }) {
+  const article = getArticleBySlug(params.slug);
 
   if (!article) {
     return {
@@ -24,19 +25,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export default async function NewsDetailPage({
+export default function NewsDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = getArticleBySlug(params.slug);
 
   if (!article) {
     notFound();
   }
 
-  const relatedArticles = getRelatedArticles(slug, 3);
+  const relatedArticles = getRelatedArticles(params.slug, 3);
 
   return <NewsDetailClient article={article} relatedArticles={relatedArticles} />;
 }
