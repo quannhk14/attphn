@@ -429,7 +429,7 @@ export function MapPreviewSection() {
                   </motion.div>
                   <div>
                     <div className="text-2xl font-bold text-foreground">
-                      2.547
+                      {formatNumber(2547)}
                     </div>
                     <div className="text-sm text-muted-foreground">
                       Địa điểm an toàn
