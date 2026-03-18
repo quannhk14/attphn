@@ -6,6 +6,11 @@ import { ArrowRight, MapPin, Shield, ClipboardCheck, AlertTriangle, TrendingUp }
 import { Button } from "@/components/ui/button";
 import { Hero3DScene } from "./hero-3d-scene";
 
+// Format number with dots as thousand separators (consistent across server/client)
+function formatNumber(num: number): string {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 interface Stat {
   icon: React.ElementType;
   value: number;
@@ -83,7 +88,7 @@ function AnimatedCounter({
 
   return (
     <span ref={ref}>
-      {count.toLocaleString()}
+      {formatNumber(count)}
       {suffix}
     </span>
   );

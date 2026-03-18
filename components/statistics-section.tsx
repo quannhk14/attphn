@@ -11,6 +11,11 @@ import {
   Users,
 } from "lucide-react";
 
+// Format number with dots as thousand separators (consistent across server/client)
+function formatNumber(num: number): string {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 interface Stat {
   icon: React.ElementType;
   value: number;
@@ -88,7 +93,7 @@ function AnimatedCounter({
 
   return (
     <span ref={ref}>
-      {count.toLocaleString()}
+      {formatNumber(count)}
       {suffix}
     </span>
   );
