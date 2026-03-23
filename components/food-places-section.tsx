@@ -54,15 +54,6 @@ interface Restaurant {
   violationDetails?: string;
   penaltyInfo?: string;
   lastInspectionDetails?: string;
-  // Supply chain information
-  supplierName?: string;
-  transportUnit?: string;
-  // Certifications
-  certifications?: Array<{
-    name: string;
-    icon?: string;
-    color?: string;
-  }>;
 }
 
 const restaurants: Restaurant[] = [
@@ -79,12 +70,6 @@ const restaurants: Restaurant[] = [
     hygieneScore: 95,
     certificationInfo: "Chứng nhận ATTP cấp A - Cơ sở đạt chuẩn vệ sinh an toàn thực phẩm theo quy định Bộ Y tế",
     lastInspectionDetails: "Kiểm tra định kỳ ngày 15/03/2026. Tất cả tiêu chí đạt yêu cầu.",
-    supplierName: "Công ty TNHH Thực phẩm Sạch Việt",
-    transportUnit: "Vận tải An Toàn Việt",
-    certifications: [
-      { name: "VietGAP", color: "bg-green-100 text-green-700 border-green-200" },
-      { name: "HACCP", color: "bg-blue-100 text-blue-700 border-blue-200" },
-    ],
   },
   {
     id: 2,
@@ -99,13 +84,6 @@ const restaurants: Restaurant[] = [
     hygieneScore: 98,
     certificationInfo: "Chứng nhận ATTP cấp A - Nhà hàng Obama đã từng đến. Cơ sở mẫu mực về an toàn thực phẩm.",
     lastInspectionDetails: "Kiểm tra ngày 20/02/2026. Xuất sắc về vệ sinh bếp và bảo quản thực phẩm.",
-    supplierName: "Nông trại Bùi Viết - Sơn Tây",
-    transportUnit: "Logistics Xanh Việt",
-    certifications: [
-      { name: "VietGAP", color: "bg-green-100 text-green-700 border-green-200" },
-      { name: "HACCP", color: "bg-blue-100 text-blue-700 border-blue-200" },
-      { name: "ISO 22000", color: "bg-purple-100 text-purple-700 border-purple-200" },
-    ],
   },
   {
     id: 3,
@@ -120,11 +98,6 @@ const restaurants: Restaurant[] = [
     hygieneScore: 92,
     certificationInfo: "Chứng nhận ATTP cấp B - Cơ sở truyền thống đạt chuẩn. Nguồn hải sản rõ ràng.",
     lastInspectionDetails: "Kiểm tra ngày 10/03/2026. Đạt yêu cầu về vệ sinh và nguồn gốc thực phẩm.",
-    supplierName: "Cảng cá Hạ Long - Quảng Ninh",
-    transportUnit: "Công ty Vận tải Lạnh Việt",
-    certifications: [
-      { name: "HACCP", color: "bg-blue-100 text-blue-700 border-blue-200" },
-    ],
   },
   {
     id: 4,
@@ -139,11 +112,6 @@ const restaurants: Restaurant[] = [
     hygieneScore: 90,
     certificationInfo: "Chứng nhận ATTP cấp B - Quán ăn vặt đạt chuẩn vệ sinh.",
     lastInspectionDetails: "Kiểm tra ngày 25/01/2026. Đạt yêu cầu cơ bản, cần cải thiện hệ thống thông gió.",
-    supplierName: "Lò bánh mì Huyền - Hà Nội",
-    transportUnit: "Giao hàng nhanh Hà Nội",
-    certifications: [
-      { name: "VietGAP", color: "bg-green-100 text-green-700 border-green-200" },
-    ],
   },
   {
     id: 5,
@@ -157,9 +125,6 @@ const restaurants: Restaurant[] = [
     violationDetails: "Vi phạm vệ sinh an toàn thực phẩm: Bảo quản thực phẩm không đúng quy định, thiếu giấy chứng nhận nguồn gốc.",
     penaltyInfo: "Phạt hành chính 15.000.000 VND. Đình chỉ hoạt động 15 ngày để khắc phục.",
     lastInspectionDetails: "Kiểm tra ngày 18/02/2026. Phát hiện nhiều vi phạm nghiêm trọng.",
-    supplierName: "Không xác định",
-    transportUnit: "Không xác định",
-    certifications: [],
   },
   {
     id: 6,
@@ -173,9 +138,6 @@ const restaurants: Restaurant[] = [
     violationDetails: "Không có giấy phép kinh doanh thực phẩm. Nguồn gốc thịt không rõ ràng. Điều kiện vệ sinh kém.",
     penaltyInfo: "Phạt hành chính 25.000.000 VND. Cấm hoạt động cho đến khi đủ điều kiện.",
     lastInspectionDetails: "Kiểm tra đột xuất ngày 05/03/2026. Vi phạm nghiêm trọng về an toàn thực phẩm.",
-    supplierName: "Không xác định",
-    transportUnit: "Không xác định",
-    certifications: [],
   },
 ];
 
@@ -717,68 +679,6 @@ function RestaurantDetailModal({
           {/* Divider */}
           <div className="h-px bg-border" />
 
-          {/* Supply Chain Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.32 }}
-            className="space-y-3"
-          >
-            <div className="flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm font-medium text-foreground">
-                Chuỗi cung ứng thực phẩm
-              </span>
-            </div>
-            <div className="grid sm:grid-cols-2 gap-3 pl-6">
-              <div className="space-y-1">
-                <p className="text-xs text-muted-foreground">Đơn vị cung cấp</p>
-                <p className="text-sm text-foreground font-medium">
-                  {restaurant.supplierName || "Không xác định"}
-                </p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-xs text-muted-foreground">Đơn vị vận chuyển</p>
-                <p className="text-sm text-foreground font-medium">
-                  {restaurant.transportUnit || "Không xác định"}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Certification Badges Section */}
-          {restaurant.certifications && restaurant.certifications.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.34 }}
-              className="space-y-3"
-            >
-              <div className="flex items-center gap-2">
-                <BadgeCheck className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium text-foreground">
-                  Chứng nhận an toàn
-                </span>
-              </div>
-              <div className="flex flex-wrap gap-2 pl-6">
-                {restaurant.certifications.map((cert, idx) => (
-                  <motion.span
-                    key={idx}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.36 + idx * 0.05 }}
-                    className={`text-sm font-medium px-3 py-1.5 rounded-lg border ${cert.color}`}
-                  >
-                    {cert.name}
-                  </motion.span>
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {/* Divider */}
-          <div className="h-px bg-border" />
-
           {/* Status-specific content */}
           {isSafe ? (
             <>
@@ -1003,7 +903,7 @@ function RestaurantCard({
           </div>
         </div>
 
-        <div className="mt-4 space-y-3">
+        <div className="mt-4 space-y-2">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <MapPin className="w-4 h-4" />
             <span className="truncate">{restaurant.address}</span>
@@ -1012,23 +912,6 @@ function RestaurantCard({
             <Calendar className="w-4 h-4" />
             <span>Kiểm tra: {restaurant.inspectionDate}</span>
           </div>
-
-          {/* Certification Badges */}
-          {restaurant.certifications && restaurant.certifications.length > 0 && (
-            <div className="flex flex-wrap gap-2 pt-2">
-              {restaurant.certifications.slice(0, 3).map((cert, idx) => (
-                <motion.span
-                  key={idx}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: idx * 0.05 }}
-                  className={`text-xs font-medium px-2.5 py-1 rounded-full border ${cert.color}`}
-                >
-                  {cert.name}
-                </motion.span>
-              ))}
-            </div>
-          )}
         </div>
 
         <motion.div
