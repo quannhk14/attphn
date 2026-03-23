@@ -555,8 +555,8 @@ function FeedbackModal({
                   <Label
                     htmlFor="register"
                     className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${formData.requestType === "register"
-                        ? "border-primary bg-primary/5 shadow-sm"
-                        : "border-border hover:border-primary/30 hover:bg-muted/30"
+                      ? "border-primary bg-primary/5 shadow-sm"
+                      : "border-border hover:border-primary/30 hover:bg-muted/30"
                       }`}
                   >
                     <RadioGroupItem value="register" id="register" />
@@ -570,8 +570,8 @@ function FeedbackModal({
                   <Label
                     htmlFor="report"
                     className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${formData.requestType === "report"
-                        ? "border-destructive bg-destructive/5 shadow-sm"
-                        : "border-border hover:border-destructive/30 hover:bg-muted/30"
+                      ? "border-destructive bg-destructive/5 shadow-sm"
+                      : "border-border hover:border-destructive/30 hover:bg-muted/30"
                       }`}
                   >
                     <RadioGroupItem value="report" id="report" />
@@ -757,8 +757,8 @@ function FeedbackModal({
                   type="submit"
                   disabled={isSubmitting}
                   className={`flex-1 h-11 rounded-xl shadow-lg transition-all duration-200 ${formData.requestType === "register"
-                      ? "bg-primary hover:bg-primary/90 shadow-primary/25 hover:shadow-primary/35"
-                      : "bg-destructive hover:bg-destructive/90 shadow-destructive/25 hover:shadow-destructive/35"
+                    ? "bg-primary hover:bg-primary/90 shadow-primary/25 hover:shadow-primary/35"
+                    : "bg-destructive hover:bg-destructive/90 shadow-destructive/25 hover:shadow-destructive/35"
                     }`}
                 >
                   {isSubmitting ? (
@@ -823,8 +823,8 @@ function RestaurantDetailModal({
         {/* Header with gradient based on status */}
         <div
           className={`relative p-6 ${isSafe
-              ? "bg-gradient-to-br from-primary/10 via-primary/5 to-transparent"
-              : "bg-gradient-to-br from-destructive/10 via-destructive/5 to-transparent"
+            ? "bg-gradient-to-br from-primary/10 via-primary/5 to-transparent"
+            : "bg-gradient-to-br from-destructive/10 via-destructive/5 to-transparent"
             }`}
         >
           <DialogHeader>
@@ -854,8 +854,8 @@ function RestaurantDetailModal({
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
                   className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium mt-2 ${isSafe
-                      ? "bg-primary/20 text-primary border border-primary/30"
-                      : "bg-destructive/20 text-destructive border border-destructive/30"
+                    ? "bg-primary/20 text-primary border border-primary/30"
+                    : "bg-destructive/20 text-destructive border border-destructive/30"
                     }`}
                 >
                   {isSafe ? (
@@ -1115,15 +1115,15 @@ function RestaurantCard({
       onHoverEnd={() => setIsHovered(false)}
       onClick={() => onSelect(restaurant)}
       className={`group relative bg-card rounded-2xl border overflow-hidden transition-all duration-300 cursor-pointer ${restaurant.status === "safe"
-          ? "border-border hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10"
-          : "border-destructive/30 hover:border-destructive/50 hover:shadow-xl hover:shadow-destructive/10"
+        ? "border-border hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10"
+        : "border-destructive/30 hover:border-destructive/50 hover:shadow-xl hover:shadow-destructive/10"
         }`}
     >
       {/* Glow effect */}
       <div
         className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${restaurant.status === "safe"
-            ? "bg-gradient-to-br from-primary/5 to-transparent"
-            : "bg-gradient-to-br from-destructive/5 to-transparent"
+          ? "bg-gradient-to-br from-primary/5 to-transparent"
+          : "bg-gradient-to-br from-destructive/5 to-transparent"
           }`}
       />
 
@@ -1140,8 +1140,8 @@ function RestaurantCard({
         {/* Status Badge */}
         <div
           className={`absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium backdrop-blur-md ${restaurant.status === "safe"
-              ? "bg-primary/20 text-primary border border-primary/30"
-              : "bg-destructive/20 text-destructive border border-destructive/30"
+            ? "bg-primary/20 text-primary border border-primary/30"
+            : "bg-destructive/20 text-destructive border border-destructive/30"
             }`}
         >
           {restaurant.status === "safe" ? (
@@ -1314,8 +1314,8 @@ export function FoodPlacesSection() {
             <button
               onClick={() => handleTabChange("safe")}
               className={`relative px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${activeTab === "safe"
-                  ? "text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+                ? "text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground"
                 }`}
             >
               {activeTab === "safe" && (
@@ -1333,8 +1333,8 @@ export function FoodPlacesSection() {
             <button
               onClick={() => handleTabChange("violations")}
               className={`relative px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${activeTab === "violations"
-                  ? "text-destructive-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+                ? "text-destructive-foreground"
+                : "text-muted-foreground hover:text-foreground"
                 }`}
             >
               {activeTab === "violations" && (
