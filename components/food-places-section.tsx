@@ -1,3 +1,8 @@
+/**
+ * Food Places Section Component
+ * Displays a list of food establishments with safety inspection status,
+ * detailed information, and supply chain transparency.
+ */
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -38,6 +43,21 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "sonner";
 
+interface Organization {
+  id: string;
+  name: string;
+  type: "supplier" | "transporter";
+  location: string;
+  certifications?: string[];
+  avatar?: string;
+  contact?: string;
+}
+
+interface SupplyChain {
+  supplier: Organization;
+  transporter: Organization;
+}
+
 interface Restaurant {
   id: number;
   name: string;
@@ -55,14 +75,7 @@ interface Restaurant {
   penaltyInfo?: string;
   lastInspectionDetails?: string;
   // Supply chain information
-  supplierName?: string;
-  transportUnit?: string;
-  // Certifications
-  certifications?: Array<{
-    name: string;
-    icon?: string;
-    color?: string;
-  }>;
+  supplyChain?: SupplyChain;
 }
 
 const restaurants: Restaurant[] = [
@@ -79,12 +92,26 @@ const restaurants: Restaurant[] = [
     hygieneScore: 95,
     certificationInfo: "Chứng nhận ATTP cấp A - Cơ sở đạt chuẩn vệ sinh an toàn thực phẩm theo quy định Bộ Y tế",
     lastInspectionDetails: "Kiểm tra định kỳ ngày 15/03/2026. Tất cả tiêu chí đạt yêu cầu.",
-    supplierName: "Công ty TNHH Thực phẩm Sạch Việt",
-    transportUnit: "Vận tải An Toàn Việt",
-    certifications: [
-      { name: "VietGAP", color: "bg-green-100 text-green-700 border-green-200" },
-      { name: "HACCP", color: "bg-blue-100 text-blue-700 border-blue-200" },
-    ],
+    supplyChain: {
+      supplier: {
+        id: "supplier-1",
+        name: "Công ty TNHH Thực phẩm Sạch Việt",
+        type: "supplier",
+        location: "Hà Đông, Hà Nội",
+        certifications: ["VietGAP"],
+        avatar: "🏢",
+        contact: "024-3456-7890",
+      },
+      transporter: {
+        id: "transporter-1",
+        name: "Vận tải An Toàn Việt",
+        type: "transporter",
+        location: "Cầu Giấy, Hà Nội",
+        certifications: ["HACCP"],
+        avatar: "🚛",
+        contact: "024-5678-9012",
+      },
+    },
   },
   {
     id: 2,
@@ -99,13 +126,26 @@ const restaurants: Restaurant[] = [
     hygieneScore: 98,
     certificationInfo: "Chứng nhận ATTP cấp A - Nhà hàng Obama đã từng đến. Cơ sở mẫu mực về an toàn thực phẩm.",
     lastInspectionDetails: "Kiểm tra ngày 20/02/2026. Xuất sắc về vệ sinh bếp và bảo quản thực phẩm.",
-    supplierName: "Nông trại Bùi Viết - Sơn Tây",
-    transportUnit: "Logistics Xanh Việt",
-    certifications: [
-      { name: "VietGAP", color: "bg-green-100 text-green-700 border-green-200" },
-      { name: "HACCP", color: "bg-blue-100 text-blue-700 border-blue-200" },
-      { name: "ISO 22000", color: "bg-purple-100 text-purple-700 border-purple-200" },
-    ],
+    supplyChain: {
+      supplier: {
+        id: "supplier-2",
+        name: "Nông trại Bùi Viết - Sơn Tây",
+        type: "supplier",
+        location: "Sơn Tây, Hà Nội",
+        certifications: ["VietGAP", "HACCP"],
+        avatar: "🌾",
+        contact: "024-7890-1234",
+      },
+      transporter: {
+        id: "transporter-2",
+        name: "Logistics Xanh Việt",
+        type: "transporter",
+        location: "Hoàng Mai, Hà Nội",
+        certifications: ["ISO 22000"],
+        avatar: "🚚",
+        contact: "024-9012-3456",
+      },
+    },
   },
   {
     id: 3,
@@ -120,11 +160,26 @@ const restaurants: Restaurant[] = [
     hygieneScore: 92,
     certificationInfo: "Chứng nhận ATTP cấp B - Cơ sở truyền thống đạt chuẩn. Nguồn hải sản rõ ràng.",
     lastInspectionDetails: "Kiểm tra ngày 10/03/2026. Đạt yêu cầu về vệ sinh và nguồn gốc thực phẩm.",
-    supplierName: "Cảng cá Hạ Long - Quảng Ninh",
-    transportUnit: "Công ty Vận tải Lạnh Việt",
-    certifications: [
-      { name: "HACCP", color: "bg-blue-100 text-blue-700 border-blue-200" },
-    ],
+    supplyChain: {
+      supplier: {
+        id: "supplier-3",
+        name: "Cảng cá Hạ Long - Quảng Ninh",
+        type: "supplier",
+        location: "Hạ Long, Quảng Ninh",
+        certifications: ["HACCP"],
+        avatar: "🐠",
+        contact: "033-1234-5678",
+      },
+      transporter: {
+        id: "transporter-3",
+        name: "Công ty Vận tải Lạnh Việt",
+        type: "transporter",
+        location: "Bắc Từ Liêm, Hà Nội",
+        certifications: ["HACCP"],
+        avatar: "❄️",
+        contact: "024-3456-7890",
+      },
+    },
   },
   {
     id: 4,
@@ -139,11 +194,26 @@ const restaurants: Restaurant[] = [
     hygieneScore: 90,
     certificationInfo: "Chứng nhận ATTP cấp B - Quán ăn vặt đạt chuẩn vệ sinh.",
     lastInspectionDetails: "Kiểm tra ngày 25/01/2026. Đạt yêu cầu cơ bản, cần cải thiện hệ thống thông gió.",
-    supplierName: "Lò bánh mì Huyền - Hà Nội",
-    transportUnit: "Giao hàng nhanh Hà Nội",
-    certifications: [
-      { name: "VietGAP", color: "bg-green-100 text-green-700 border-green-200" },
-    ],
+    supplyChain: {
+      supplier: {
+        id: "supplier-4",
+        name: "Lò bánh mì Huyền - Hà Nội",
+        type: "supplier",
+        location: "Đống Đa, Hà Nội",
+        certifications: ["VietGAP"],
+        avatar: "🍞",
+        contact: "024-5678-9012",
+      },
+      transporter: {
+        id: "transporter-4",
+        name: "Giao hàng nhanh Hà Nội",
+        type: "transporter",
+        location: "Hai Bà Trưng, Hà Nội",
+        certifications: [],
+        avatar: "🏃",
+        contact: "024-7890-1234",
+      },
+    },
   },
   {
     id: 5,
@@ -157,9 +227,6 @@ const restaurants: Restaurant[] = [
     violationDetails: "Vi phạm vệ sinh an toàn thực phẩm: Bảo quản thực phẩm không đúng quy định, thiếu giấy chứng nhận nguồn gốc.",
     penaltyInfo: "Phạt hành chính 15.000.000 VND. Đình chỉ hoạt động 15 ngày để khắc phục.",
     lastInspectionDetails: "Kiểm tra ngày 18/02/2026. Phát hiện nhiều vi phạm nghiêm trọng.",
-    supplierName: "Không xác định",
-    transportUnit: "Không xác định",
-    certifications: [],
   },
   {
     id: 6,
@@ -173,11 +240,160 @@ const restaurants: Restaurant[] = [
     violationDetails: "Không có giấy phép kinh doanh thực phẩm. Nguồn gốc thịt không rõ ràng. Điều kiện vệ sinh kém.",
     penaltyInfo: "Phạt hành chính 25.000.000 VND. Cấm hoạt động cho đến khi đủ điều kiện.",
     lastInspectionDetails: "Kiểm tra đột xuất ngày 05/03/2026. Vi phạm nghiêm trọng về an toàn thực phẩm.",
-    supplierName: "Không xác định",
-    transportUnit: "Không xác định",
-    certifications: [],
   },
 ];
+
+// Organization Detail Modal
+function OrganizationModal({
+  open,
+  org,
+  onClose,
+}: {
+  open: boolean;
+  org?: Organization;
+  onClose: () => void;
+}) {
+  if (!org) return null;
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <Dialog open={open} onOpenChange={onClose}>
+          <DialogContent className="sm:max-w-md bg-card/98 backdrop-blur-2xl border-border/40 p-0 overflow-hidden shadow-2xl">
+            <div className="relative">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/80 to-primary" />
+              
+              <div className="relative px-6 pt-6 pb-5 bg-gradient-to-br from-primary/8 via-primary/4 to-transparent">
+                <DialogHeader className="space-y-4">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ type: "spring", delay: 0.1 }}
+                    className="flex items-center gap-4"
+                  >
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center text-2xl border border-primary/20">
+                      {org.avatar}
+                    </div>
+                    <div>
+                      <DialogTitle className="text-lg font-bold text-foreground">
+                        {org.name}
+                      </DialogTitle>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {org.type === "supplier" ? "Nhà cung cấp" : "Đơn vị vận chuyển"}
+                      </p>
+                    </div>
+                  </motion.div>
+                </DialogHeader>
+              </div>
+
+              <div className="px-6 pb-6 space-y-5">
+                {/* Location */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15 }}
+                  className="space-y-2"
+                >
+                  <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                    <MapPin className="w-4 h-4 text-muted-foreground" />
+                    Địa chỉ
+                  </div>
+                  <p className="text-sm text-muted-foreground pl-6">{org.location}</p>
+                </motion.div>
+
+                {/* Contact */}
+                {org.contact && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="space-y-2"
+                  >
+                    <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                      <Phone className="w-4 h-4 text-muted-foreground" />
+                      Liên hệ
+                    </div>
+                    <p className="text-sm text-muted-foreground pl-6">{org.contact}</p>
+                  </motion.div>
+                )}
+
+                {/* Certifications */}
+                {org.certifications && org.certifications.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.25 }}
+                    className="space-y-2"
+                  >
+                    <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                      <BadgeCheck className="w-4 h-4 text-primary" />
+                      Chứng nhận
+                    </div>
+                    <div className="flex flex-wrap gap-2 pl-6">
+                      {org.certifications.map((cert, idx) => (
+                        <span
+                          key={idx}
+                          className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-medium border border-primary/20"
+                        >
+                          {cert}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+    </AnimatePresence>
+  );
+}
+
+// Supply Chain Visual Block Component
+function SupplyChainBlock({
+  organization,
+  onClick,
+}: {
+  organization: Organization;
+  onClick?: () => void;
+}) {
+  return (
+    <motion.button
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      whileHover={{ scale: 1.02 }}
+      onClick={onClick}
+      className="w-full text-left p-4 rounded-xl border border-border/60 hover:border-primary/40 hover:bg-muted/50 transition-all duration-200 group"
+    >
+      <div className="flex items-start gap-3">
+        {/* Avatar */}
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center text-lg flex-shrink-0 border border-primary/20 group-hover:border-primary/40 transition-colors">
+          {organization.avatar}
+        </div>
+        
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <h4 className="text-sm font-semibold text-foreground truncate group-hover:text-primary transition-colors">
+            {organization.name}
+          </h4>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            {organization.type === "supplier" ? "Nhà cung cấp" : "Vận chuyển"}
+          </p>
+          
+          {/* First certification badge */}
+          {organization.certifications && organization.certifications.length > 0 && (
+            <div className="mt-2">
+              <span className="inline-block px-2 py-1 rounded-md bg-primary/10 text-primary text-xs font-medium border border-primary/20">
+                {organization.certifications[0]}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+    </motion.button>
+  );
+}
 
 // Registration/Feedback Modal
 function FeedbackModal({
@@ -598,10 +814,12 @@ function RestaurantDetailModal({
   restaurant,
   open,
   onClose,
+  onSelectOrganization,
 }: {
   restaurant: Restaurant | null;
   open: boolean;
   onClose: () => void;
+  onSelectOrganization?: (org: Organization) => void;
 }) {
   if (!restaurant) return null;
 
@@ -718,60 +936,28 @@ function RestaurantDetailModal({
           <div className="h-px bg-border" />
 
           {/* Supply Chain Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.32 }}
-            className="space-y-3"
-          >
-            <div className="flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm font-medium text-foreground">
-                Chuỗi cung ứng thực phẩm
-              </span>
-            </div>
-            <div className="grid sm:grid-cols-2 gap-3 pl-6">
-              <div className="space-y-1">
-                <p className="text-xs text-muted-foreground">Đơn vị cung cấp</p>
-                <p className="text-sm text-foreground font-medium">
-                  {restaurant.supplierName || "Không xác định"}
-                </p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-xs text-muted-foreground">Đơn vị vận chuyển</p>
-                <p className="text-sm text-foreground font-medium">
-                  {restaurant.transportUnit || "Không xác định"}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Certification Badges Section */}
-          {restaurant.certifications && restaurant.certifications.length > 0 && (
+          {restaurant.supplyChain && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.34 }}
+              transition={{ delay: 0.32 }}
               className="space-y-3"
             >
               <div className="flex items-center gap-2">
-                <BadgeCheck className="w-4 h-4 text-primary" />
+                <Building2 className="w-4 h-4 text-muted-foreground" />
                 <span className="text-sm font-medium text-foreground">
-                  Chứng nhận an toàn
+                  Chuỗi cung ứng thực phẩm
                 </span>
               </div>
-              <div className="flex flex-wrap gap-2 pl-6">
-                {restaurant.certifications.map((cert, idx) => (
-                  <motion.span
-                    key={idx}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.36 + idx * 0.05 }}
-                    className={`text-sm font-medium px-3 py-1.5 rounded-lg border ${cert.color}`}
-                  >
-                    {cert.name}
-                  </motion.span>
-                ))}
+              <div className="grid grid-cols-2 gap-3 pl-0">
+                <SupplyChainBlock
+                  organization={restaurant.supplyChain.supplier}
+                  onClick={() => onSelectOrganization?.(restaurant.supplyChain.supplier)}
+                />
+                <SupplyChainBlock
+                  organization={restaurant.supplyChain.transporter}
+                  onClick={() => onSelectOrganization?.(restaurant.supplyChain.transporter)}
+                />
               </div>
             </motion.div>
           )}
@@ -1013,20 +1199,21 @@ function RestaurantCard({
             <span>Kiểm tra: {restaurant.inspectionDate}</span>
           </div>
 
-          {/* Certification Badges */}
-          {restaurant.certifications && restaurant.certifications.length > 0 && (
-            <div className="flex flex-wrap gap-2 pt-2">
-              {restaurant.certifications.slice(0, 3).map((cert, idx) => (
-                <motion.span
-                  key={idx}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: idx * 0.05 }}
-                  className={`text-xs font-medium px-2.5 py-1 rounded-full border ${cert.color}`}
-                >
-                  {cert.name}
-                </motion.span>
-              ))}
+          {/* Supply Chain Blocks */}
+          {restaurant.supplyChain && (
+            <div className="grid grid-cols-2 gap-2 pt-2">
+              <div className="p-3 rounded-lg bg-muted/40 border border-border/60 group/block">
+                <p className="text-xs text-muted-foreground font-medium">Cung cấp</p>
+                <p className="text-xs font-semibold text-foreground mt-1 truncate">
+                  {restaurant.supplyChain.supplier.avatar} {restaurant.supplyChain.supplier.name.split(" ")[0]}
+                </p>
+              </div>
+              <div className="p-3 rounded-lg bg-muted/40 border border-border/60 group/block">
+                <p className="text-xs text-muted-foreground font-medium">Vận chuyển</p>
+                <p className="text-xs font-semibold text-foreground mt-1 truncate">
+                  {restaurant.supplyChain.transporter.avatar} {restaurant.supplyChain.transporter.name.split(" ")[0]}
+                </p>
+              </div>
             </div>
           )}
         </div>
@@ -1078,6 +1265,7 @@ export function FoodPlacesSection() {
   const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(
     null
   );
+  const [selectedOrganization, setSelectedOrganization] = useState<Organization | null>(null);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
 
   const filteredRestaurants = restaurants.filter((r) =>
@@ -1228,6 +1416,14 @@ export function FoodPlacesSection() {
         restaurant={selectedRestaurant}
         open={!!selectedRestaurant}
         onClose={() => setSelectedRestaurant(null)}
+        onSelectOrganization={setSelectedOrganization}
+      />
+
+      {/* Organization Detail Modal */}
+      <OrganizationModal
+        org={selectedOrganization}
+        open={!!selectedOrganization}
+        onClose={() => setSelectedOrganization(null)}
       />
 
       {/* Feedback/Registration Modal */}
