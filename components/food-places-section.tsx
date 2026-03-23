@@ -257,7 +257,7 @@ function OrganizationModal({
           <DialogContent className="sm:max-w-md bg-card/98 backdrop-blur-2xl border-border/40 p-0 overflow-hidden shadow-2xl">
             <div className="relative">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/80 to-primary" />
-
+              
               <div className="relative px-6 pt-6 pb-5 bg-gradient-to-br from-primary/8 via-primary/4 to-transparent">
                 <DialogHeader className="space-y-4">
                   <motion.div
@@ -366,7 +366,7 @@ function SupplyChainBlock({
         <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center text-lg flex-shrink-0 border border-primary/20 group-hover:border-primary/40 transition-colors">
           {organization.avatar}
         </div>
-
+        
         {/* Content */}
         <div className="flex-1 min-w-0">
           <h4 className="text-sm font-semibold text-foreground truncate group-hover:text-primary transition-colors">
@@ -375,7 +375,7 @@ function SupplyChainBlock({
           <p className="text-xs text-muted-foreground mt-0.5">
             {organization.type === "supplier" ? "Nhà cung cấp" : "Vận chuyển"}
           </p>
-
+          
           {/* First certification badge */}
           {organization.certifications && organization.certifications.length > 0 && (
             <div className="mt-2">
@@ -485,7 +485,7 @@ function FeedbackModal({
     <AnimatePresence>
       {open && (
         <Dialog open={open} onOpenChange={onClose}>
-          <DialogContent
+          <DialogContent 
             className="sm:max-w-xl bg-card/98 backdrop-blur-2xl border-border/40 p-0 overflow-hidden shadow-2xl"
             showCloseButton={false}
           >
@@ -493,7 +493,7 @@ function FeedbackModal({
             <div className="relative">
               {/* Decorative top border */}
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/80 to-primary" />
-
+              
               {/* Header content */}
               <div className="relative px-6 pt-6 pb-5 bg-gradient-to-br from-primary/8 via-primary/4 to-transparent">
                 {/* Official badge */}
@@ -554,10 +554,11 @@ function FeedbackModal({
                 >
                   <Label
                     htmlFor="register"
-                    className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${formData.requestType === "register"
-                      ? "border-primary bg-primary/5 shadow-sm"
-                      : "border-border hover:border-primary/30 hover:bg-muted/30"
-                      }`}
+                    className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                      formData.requestType === "register"
+                        ? "border-primary bg-primary/5 shadow-sm"
+                        : "border-border hover:border-primary/30 hover:bg-muted/30"
+                    }`}
                   >
                     <RadioGroupItem value="register" id="register" />
                     <div className="flex items-center gap-2">
@@ -569,10 +570,11 @@ function FeedbackModal({
                   </Label>
                   <Label
                     htmlFor="report"
-                    className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${formData.requestType === "report"
-                      ? "border-destructive bg-destructive/5 shadow-sm"
-                      : "border-border hover:border-destructive/30 hover:bg-muted/30"
-                      }`}
+                    className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                      formData.requestType === "report"
+                        ? "border-destructive bg-destructive/5 shadow-sm"
+                        : "border-border hover:border-destructive/30 hover:bg-muted/30"
+                    }`}
                   >
                     <RadioGroupItem value="report" id="report" />
                     <div className="flex items-center gap-2">
@@ -708,7 +710,7 @@ function FeedbackModal({
                     </p>
                   </div>
                 </div>
-
+                
                 {/* Uploaded files list */}
                 {uploadedFiles.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-2">
@@ -756,10 +758,11 @@ function FeedbackModal({
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`flex-1 h-11 rounded-xl shadow-lg transition-all duration-200 ${formData.requestType === "register"
-                    ? "bg-primary hover:bg-primary/90 shadow-primary/25 hover:shadow-primary/35"
-                    : "bg-destructive hover:bg-destructive/90 shadow-destructive/25 hover:shadow-destructive/35"
-                    }`}
+                  className={`flex-1 h-11 rounded-xl shadow-lg transition-all duration-200 ${
+                    formData.requestType === "register"
+                      ? "bg-primary hover:bg-primary/90 shadow-primary/25 hover:shadow-primary/35"
+                      : "bg-destructive hover:bg-destructive/90 shadow-destructive/25 hover:shadow-destructive/35"
+                  }`}
                 >
                   {isSubmitting ? (
                     <>
@@ -822,10 +825,11 @@ function RestaurantDetailModal({
       <DialogContent className="sm:max-w-lg bg-card/95 backdrop-blur-xl border-border/50 p-0 overflow-hidden">
         {/* Header with gradient based on status */}
         <div
-          className={`relative p-6 ${isSafe
-            ? "bg-gradient-to-br from-primary/10 via-primary/5 to-transparent"
-            : "bg-gradient-to-br from-destructive/10 via-destructive/5 to-transparent"
-            }`}
+          className={`relative p-6 ${
+            isSafe
+              ? "bg-gradient-to-br from-primary/10 via-primary/5 to-transparent"
+              : "bg-gradient-to-br from-destructive/10 via-destructive/5 to-transparent"
+          }`}
         >
           <DialogHeader>
             <div className="flex items-start gap-4">
@@ -834,8 +838,9 @@ function RestaurantDetailModal({
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", delay: 0.1 }}
-                className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl ${isSafe ? "bg-primary/10" : "bg-destructive/10"
-                  }`}
+                className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl ${
+                  isSafe ? "bg-primary/10" : "bg-destructive/10"
+                }`}
               >
                 {restaurant.image}
               </motion.div>
@@ -853,20 +858,21 @@ function RestaurantDetailModal({
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 }}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium mt-2 ${isSafe
-                    ? "bg-primary/20 text-primary border border-primary/30"
-                    : "bg-destructive/20 text-destructive border border-destructive/30"
-                    }`}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium mt-2 ${
+                    isSafe
+                      ? "bg-primary/20 text-primary border border-primary/30"
+                      : "bg-destructive/20 text-destructive border border-destructive/30"
+                  }`}
                 >
                   {isSafe ? (
                     <>
-                      <BadgeCheck className="w-3.5 h-3.5" />
-                      Chứng nhận an toàn
+<BadgeCheck className="w-3.5 h-3.5" />
+                                      Chứng nhận an toàn
                     </>
                   ) : (
                     <>
-                      <FileWarning className="w-3.5 h-3.5" />
-                      Có vi phạm
+<FileWarning className="w-3.5 h-3.5" />
+                                      Có vi phạm
                     </>
                   )}
                 </motion.div>
@@ -1114,17 +1120,19 @@ function RestaurantCard({
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       onClick={() => onSelect(restaurant)}
-      className={`group relative bg-card rounded-2xl border overflow-hidden transition-all duration-300 cursor-pointer ${restaurant.status === "safe"
-        ? "border-border hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10"
-        : "border-destructive/30 hover:border-destructive/50 hover:shadow-xl hover:shadow-destructive/10"
-        }`}
+      className={`group relative bg-card rounded-2xl border overflow-hidden transition-all duration-300 cursor-pointer ${
+        restaurant.status === "safe"
+          ? "border-border hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10"
+          : "border-destructive/30 hover:border-destructive/50 hover:shadow-xl hover:shadow-destructive/10"
+      }`}
     >
       {/* Glow effect */}
       <div
-        className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${restaurant.status === "safe"
-          ? "bg-gradient-to-br from-primary/5 to-transparent"
-          : "bg-gradient-to-br from-destructive/5 to-transparent"
-          }`}
+        className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
+          restaurant.status === "safe"
+            ? "bg-gradient-to-br from-primary/5 to-transparent"
+            : "bg-gradient-to-br from-destructive/5 to-transparent"
+        }`}
       />
 
       {/* Image */}
@@ -1139,20 +1147,21 @@ function RestaurantCard({
 
         {/* Status Badge */}
         <div
-          className={`absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium backdrop-blur-md ${restaurant.status === "safe"
-            ? "bg-primary/20 text-primary border border-primary/30"
-            : "bg-destructive/20 text-destructive border border-destructive/30"
-            }`}
+          className={`absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium backdrop-blur-md ${
+            restaurant.status === "safe"
+              ? "bg-primary/20 text-primary border border-primary/30"
+              : "bg-destructive/20 text-destructive border border-destructive/30"
+          }`}
         >
           {restaurant.status === "safe" ? (
             <>
-              <Shield className="w-3 h-3" />
-              Chứng nhận
+<Shield className="w-3 h-3" />
+                              Chứng nhận
             </>
           ) : (
             <>
-              <AlertTriangle className="w-3 h-3" />
-              Vi phạm
+<AlertTriangle className="w-3 h-3" />
+                              Vi phạm
             </>
           )}
         </div>
@@ -1313,10 +1322,11 @@ export function FoodPlacesSection() {
           <div className="inline-flex p-1.5 rounded-full bg-muted/50 border border-border">
             <button
               onClick={() => handleTabChange("safe")}
-              className={`relative px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${activeTab === "safe"
-                ? "text-primary-foreground"
-                : "text-muted-foreground hover:text-foreground"
-                }`}
+              className={`relative px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                activeTab === "safe"
+                  ? "text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
             >
               {activeTab === "safe" && (
                 <motion.div
@@ -1332,10 +1342,11 @@ export function FoodPlacesSection() {
             </button>
             <button
               onClick={() => handleTabChange("violations")}
-              className={`relative px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${activeTab === "violations"
-                ? "text-destructive-foreground"
-                : "text-muted-foreground hover:text-foreground"
-                }`}
+              className={`relative px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                activeTab === "violations"
+                  ? "text-destructive-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
             >
               {activeTab === "violations" && (
                 <motion.div
@@ -1357,23 +1368,23 @@ export function FoodPlacesSection() {
           <AnimatePresence mode="popLayout">
             {isLoading
               ? [...Array(3)].map((_, i) => (
-                <RestaurantSkeleton key={`skeleton-${i}`} />
-              ))
+                  <RestaurantSkeleton key={`skeleton-${i}`} />
+                ))
               : filteredRestaurants.map((restaurant, index) => (
-                <motion.div
-                  key={restaurant.id}
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <RestaurantCard
-                    restaurant={restaurant}
-                    onSelect={setSelectedRestaurant}
-                  />
-                </motion.div>
-              ))}
+                  <motion.div
+                    key={restaurant.id}
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <RestaurantCard
+                      restaurant={restaurant}
+                      onSelect={setSelectedRestaurant}
+                    />
+                  </motion.div>
+                ))}
           </AnimatePresence>
         </div>
 
@@ -1418,4 +1429,3 @@ export function FoodPlacesSection() {
     </section>
   );
 }
-
