@@ -1,3 +1,8 @@
+/**
+ * Food Places Section Component
+ * Displays a list of food establishments with safety inspection status,
+ * detailed information, and supply chain transparency.
+ */
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
