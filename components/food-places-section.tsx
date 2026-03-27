@@ -28,6 +28,7 @@ import {
   User,
   FileText,
   ImageIcon,
+  Search,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -1259,6 +1260,243 @@ function RestaurantSkeleton() {
   );
 }
 
+// Lookup Report Status Modal
+interface LookupResult {
+  code: string;
+  status: "pending" | "checking" | "completed" | "not_found";
+  title: string;
+  description: string;
+}
+
+const LOOKUP_DATABASE: Record<string, LookupResult> = {
+  "ATTPHN-01": {
+    code: "ATTPHN-01",
+    status: "pending",
+    title: "Chờ tiếp nhận",
+    description: "Phản ánh đã được gửi và đang chờ hệ thống tiếp nhận.",
+  },
+  "ATTPHN-02": {
+    code: "ATTPHN-02",
+    status: "checking",
+    title: "Đang kiểm tra",
+    description: "Cơ quan chức năng đang tiến hành kiểm tra và xác minh thông tin.",
+  },
+  "ATTPHN-03": {
+    code: "ATTPHN-03",
+    status: "completed",
+    title: "Đã có kết quả",
+    description: "Phản ánh đã được xử lý. Vui lòng xem chi tiết kết quả bên dưới.",
+  },
+};
+
+function LookupModal({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
+  const [reportCode, setReportCode] = useState("");
+  const [result, setResult] = useState<LookupResult | null>(null);
+  const [isSearching, setIsSearching] = useState(false);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const code = reportCode.trim().toUpperCase();
+
+    if (!code) return;
+
+    setIsSearching(true);
+    // Simulate search delay
+    setTimeout(() => {
+      const found = LOOKUP_DATABASE[code];
+      if (found) {
+        setResult(found);
+      } else {
+        setResult({
+          code: code,
+          status: "not_found",
+          title: "Không tìm thấy",
+          description: `Mã phản ánh "${code}" không tồn tại trong hệ thống. Vui lòng kiểm tra lại.`,
+        });
+      }
+      setIsSearching(false);
+    }, 600);
+  };
+
+  const handleReset = () => {
+    setReportCode("");
+    setResult(null);
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "pending":
+        return "bg-gray-100 text-gray-700 border-gray-200";
+      case "checking":
+        return "bg-orange-100 text-orange-700 border-orange-200";
+      case "completed":
+        return "bg-green-100 text-green-700 border-green-200";
+      default:
+        return "bg-red-100 text-red-700 border-red-200";
+    }
+  };
+
+  const getProgressStep = (status: string): number => {
+    switch (status) {
+      case "pending":
+        return 1;
+      case "checking":
+        return 2;
+      case "completed":
+        return 3;
+      default:
+        return 0;
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-md bg-card/98 backdrop-blur-2xl border-border/40 p-0 overflow-hidden shadow-2xl">
+        <div className="relative">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/80 to-primary" />
+
+          <div className="relative px-6 pt-6 pb-5">
+            <DialogHeader>
+              <DialogTitle className="text-lg font-bold text-foreground">
+                Tra cứu kết quả phản ánh
+              </DialogTitle>
+              <DialogDescription className="text-sm text-muted-foreground">
+                Nhập mã phản ánh để kiểm tra trạng thái xử lý
+              </DialogDescription>
+            </DialogHeader>
+          </div>
+
+          <div className="px-6 pb-6 space-y-5">
+            {!result ? (
+              <motion.form
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                onSubmit={handleSearch}
+                className="space-y-4"
+              >
+                <div className="space-y-2">
+                  <Label htmlFor="report-code" className="text-sm font-medium">
+                    Nhập mã phản ánh
+                  </Label>
+                  <Input
+                    id="report-code"
+                    placeholder="VD: ATTPHN-01"
+                    value={reportCode}
+                    onChange={(e) => setReportCode(e.target.value)}
+                    disabled={isSearching}
+                    className="rounded-lg"
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  disabled={!reportCode.trim() || isSearching}
+                  className="w-full rounded-lg"
+                >
+                  {isSearching ? (
+                    <>
+                      <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+                      Đang tìm kiếm...
+                    </>
+                  ) : (
+                    <>
+                      <Search className="mr-2 w-4 h-4" />
+                      Tra cứu
+                    </>
+                  )}
+                </Button>
+              </motion.form>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="space-y-5"
+              >
+                {/* Status Badge */}
+                <div className="space-y-3">
+                  <div className={`inline-block px-3 py-1.5 rounded-full text-xs font-medium border ${getStatusColor(result.status)}`}>
+                    {result.title}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">
+                      Mã: {result.code}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      {result.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Progress Indicator */}
+                {result.status !== "not_found" && (
+                  <div className="space-y-3 pt-2">
+                    <p className="text-xs font-medium text-muted-foreground">
+                      Tiến trình xử lý
+                    </p>
+                    <div className="flex items-center justify-between">
+                      {["Chờ tiếp nhận", "Đang kiểm tra", "Đã có kết quả"].map(
+                        (step, idx) => {
+                          const stepNum = idx + 1;
+                          const isActive = stepNum <= getProgressStep(result.status);
+                          return (
+                            <motion.div
+                              key={idx}
+                              initial={{ scale: 0.8, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1 }}
+                              transition={{ delay: idx * 0.1 }}
+                              className="flex flex-col items-center flex-1"
+                            >
+                              <div
+                                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold mb-1 transition-all ${
+                                  isActive
+                                    ? "bg-primary text-primary-foreground"
+                                    : "bg-muted text-muted-foreground"
+                                }`}
+                              >
+                                {isActive ? (
+                                  <CheckCircle className="w-4 h-4" />
+                                ) : (
+                                  stepNum
+                                )}
+                              </div>
+                              <p className="text-xs text-muted-foreground text-center leading-tight">
+                                {step}
+                              </p>
+                            </motion.div>
+                          );
+                        }
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="flex gap-3 pt-2">
+                  <Button
+                    onClick={handleReset}
+                    variant="outline"
+                    className="flex-1 rounded-lg"
+                  >
+                    Tra cứu khác
+                  </Button>
+                  <Button onClick={onClose} className="flex-1 rounded-lg">
+                    Đóng
+                  </Button>
+                </div>
+              </motion.div>
+            )}
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export function FoodPlacesSection() {
   const [activeTab, setActiveTab] = useState<"safe" | "violations">("safe");
   const [isLoading, setIsLoading] = useState(false);
@@ -1267,6 +1505,7 @@ export function FoodPlacesSection() {
   );
   const [selectedOrganization, setSelectedOrganization] = useState<Organization | null>(null);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
+  const [isLookupModalOpen, setIsLookupModalOpen] = useState(false);
 
   const filteredRestaurants = restaurants.filter((r) =>
     activeTab === "safe" ? r.status === "safe" : r.status === "violation"
@@ -1298,13 +1537,23 @@ export function FoodPlacesSection() {
             </p>
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
+            className="flex gap-3 flex-wrap justify-center sm:justify-start"
           >
+            <Button
+              size="lg"
+              onClick={() => setIsLookupModalOpen(true)}
+              variant="outline"
+              className="rounded-full px-6 whitespace-nowrap"
+            >
+              <Search className="mr-2 w-4 h-4" />
+              Tra cứu
+            </Button>
             <Button
               size="lg"
               onClick={() => setIsFeedbackModalOpen(true)}
@@ -1427,6 +1676,10 @@ export function FoodPlacesSection() {
       />
 
       {/* Feedback/Registration Modal */}
+      <LookupModal
+        open={isLookupModalOpen}
+        onClose={() => setIsLookupModalOpen(false)}
+      />
       <FeedbackModal
         open={isFeedbackModalOpen}
         onClose={() => setIsFeedbackModalOpen(false)}
