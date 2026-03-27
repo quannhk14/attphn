@@ -1266,6 +1266,17 @@ interface LookupResult {
   status: "pending" | "checking" | "completed" | "not_found";
   title: string;
   description: string;
+  place?: {
+    id: number;
+    name: string;
+    address: string;
+    type: string;
+    status: "safe" | "violation";
+  };
+  result?: {
+    content: string;
+    date: string;
+  };
 }
 
 const LOOKUP_DATABASE: Record<string, LookupResult> = {
@@ -1274,27 +1285,54 @@ const LOOKUP_DATABASE: Record<string, LookupResult> = {
     status: "pending",
     title: "Chờ tiếp nhận",
     description: "Phản ánh đã được gửi và đang chờ hệ thống tiếp nhận.",
+    place: {
+      id: 5,
+      name: "Quan an goc pho",
+      address: "56 Pho Hue, Hai Ba Trung",
+      type: "Ăn vặt",
+      status: "violation",
+    },
   },
   "ATTPHN-02": {
     code: "ATTPHN-02",
     status: "checking",
     title: "Đang kiểm tra",
     description: "Cơ quan chức năng đang tiến hành kiểm tra và xác minh thông tin.",
+    place: {
+      id: 6,
+      name: "Quan nuong cho dem",
+      address: "Cho Dong Xuan",
+      type: "Đồ nướng",
+      status: "violation",
+    },
   },
   "ATTPHN-03": {
     code: "ATTPHN-03",
     status: "completed",
     title: "Đã có kết quả",
     description: "Phản ánh đã được xử lý. Vui lòng xem chi tiết kết quả bên dưới.",
+    place: {
+      id: 1,
+      name: "Pho 10 Ly Quoc Su",
+      address: "10 Ly Quoc Su, Hoan Kiem",
+      type: "Pho",
+      status: "safe",
+    },
+    result: {
+      content: "Cơ sở đã được kiểm tra và phát hiện vi phạm về điều kiện vệ sinh an toàn thực phẩm. Cơ quan chức năng đã ra quyết định phạt hành chính và yêu cầu cơ sở khắc phục ngay lập tức. Theo dõi tiếp để đảm bảo các vi phạm được sửa chữa.",
+      date: "15/03/2026",
+    },
   },
 };
 
 function LookupModal({
   open,
   onClose,
+  onSelectRestaurant,
 }: {
   open: boolean;
   onClose: () => void;
+  onSelectRestaurant?: (restaurantId: number) => void;
 }) {
   const [reportCode, setReportCode] = useState("");
   const [result, setResult] = useState<LookupResult | null>(null);
@@ -1475,18 +1513,114 @@ function LookupModal({
                   </div>
                 )}
 
-                {/* Action Buttons */}
-                <div className="flex gap-3 pt-2">
-                  <Button
-                    onClick={handleReset}
-                    variant="outline"
-                    className="flex-1 rounded-lg"
+                {/* Food Place Information */}
+                {result.place && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.25 }}
+                    className="space-y-3 p-4 rounded-lg bg-muted/40 border border-border/60"
                   >
-                    Tra cứu khác
-                  </Button>
-                  <Button onClick={onClose} className="flex-1 rounded-lg">
-                    Đóng
-                  </Button>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-4 h-4 text-muted-foreground" />
+                      <p className="text-sm font-semibold text-foreground">
+                        Thông tin địa điểm
+                      </p>
+                    </div>
+                    <div className="space-y-3 pl-6">
+                      <div className="space-y-1">
+                        <p className="text-xs text-muted-foreground">Tên địa điểm</p>
+                        <p className="text-sm font-medium text-foreground">
+                          {result.place.name}
+                        </p>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-xs text-muted-foreground">Địa chỉ</p>
+                        <p className="text-sm font-medium text-foreground">
+                          {result.place.address}
+                        </p>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="space-y-1">
+                          <p className="text-xs text-muted-foreground">Loại hình</p>
+                          <p className="text-sm font-medium text-foreground">
+                            {result.place.type}
+                          </p>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-xs text-muted-foreground">Trạng thái</p>
+                          <div
+                            className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                              result.place.status === "safe"
+                                ? "bg-green-100 text-green-700"
+                                : "bg-red-100 text-red-700"
+                            }`}
+                          >
+                            {result.place.status === "safe" ? "Đạt chuẩn" : "Vi phạm"}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Result Details */}
+                {result.status === "completed" && result.result && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="space-y-3 p-4 rounded-lg bg-muted/40 border border-border/60"
+                  >
+                    <div className="flex items-center gap-2">
+                      <FileText className="w-4 h-4 text-muted-foreground" />
+                      <p className="text-sm font-semibold text-foreground">
+                        Kết quả xử lý
+                      </p>
+                    </div>
+                    <div className="space-y-3 pl-6">
+                      <div className="space-y-1">
+                        <p className="text-xs text-muted-foreground">Nội dung kết quả</p>
+                        <p className="text-sm text-foreground leading-relaxed">
+                          {result.result.content}
+                        </p>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-xs text-muted-foreground">Ngày xử lý</p>
+                        <p className="text-sm font-medium text-foreground">
+                          {result.result.date}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="flex flex-col gap-3 pt-2">
+                  {result.place && (
+                    <Button
+                      onClick={() => {
+                        onSelectRestaurant?.(result.place!.id);
+                        onClose();
+                      }}
+                      className="w-full rounded-lg"
+                    >
+                      <ArrowRight className="mr-2 w-4 h-4" />
+                      Xem chi tiết địa điểm
+                    </Button>
+                  )}
+                  <div className="flex gap-3">
+                    <Button
+                      onClick={handleReset}
+                      variant="outline"
+                      className="flex-1 rounded-lg"
+                    >
+                      Tra cứu khác
+                    </Button>
+                    <Button onClick={onClose} className="flex-1 rounded-lg">
+                      Đóng
+                    </Button>
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -1679,6 +1813,12 @@ export function FoodPlacesSection() {
       <LookupModal
         open={isLookupModalOpen}
         onClose={() => setIsLookupModalOpen(false)}
+        onSelectRestaurant={(restaurantId) => {
+          const restaurant = restaurants.find((r) => r.id === restaurantId);
+          if (restaurant) {
+            setSelectedRestaurant(restaurant);
+          }
+        }}
       />
       <FeedbackModal
         open={isFeedbackModalOpen}
