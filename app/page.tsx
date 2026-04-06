@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Header } from "@/components/header";
 import { HeroSection } from "@/components/hero-section";
 import { FoodPlacesSection } from "@/components/food-places-section";
@@ -9,8 +9,6 @@ import { NewsSection } from "@/components/news-section";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
-  const foodPlacesSectionRef = useRef<any>(null);
-
   useEffect(() => {
     const handleOpenLookupModal = () => {
       // Find and click the lookup button in FoodPlacesSection
