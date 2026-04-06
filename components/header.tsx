@@ -446,8 +446,6 @@ function SearchInput({ isMobile = false }: { isMobile?: boolean }) {
   );
 }
 
-}
-
 // Header Menu Dropdown Component
 interface HeaderMenuDropdownProps {
   isOpen: boolean;
