@@ -1680,6 +1680,7 @@ export function FoodPlacesSection() {
             className="flex gap-3 flex-wrap justify-center sm:justify-start"
           >
             <Button
+              data-lookup-button
               size="lg"
               onClick={() => setIsLookupModalOpen(true)}
               variant="outline"

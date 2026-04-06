@@ -15,6 +15,10 @@ import {
   TrendingUp,
   Loader2,
   ArrowRight,
+  Compass,
+  Map,
+  Code2,
+  Phone,
 } from "lucide-react";
 import {
   searchAll,
@@ -442,8 +446,164 @@ function SearchInput({ isMobile = false }: { isMobile?: boolean }) {
   );
 }
 
+}
+
+// Header Menu Dropdown Component
+interface HeaderMenuDropdownProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onNavigateNews?: () => void;
+  onNavigateDiscover?: () => void;
+  onNavigateMap?: () => void;
+  onOpenLookup?: () => void;
+}
+
+function HeaderMenuDropdown({
+  isOpen,
+  onClose,
+  onNavigateNews,
+  onNavigateDiscover,
+  onNavigateMap,
+  onOpenLookup,
+}: HeaderMenuDropdownProps) {
+  const menuItems = [
+    {
+      label: "Tin tức ATTP",
+      icon: Newspaper,
+      onClick: onNavigateNews,
+      color: "text-blue-500",
+    },
+    {
+      label: "Khám phá",
+      icon: Compass,
+      onClick: onNavigateDiscover,
+      color: "text-purple-500",
+    },
+    {
+      label: "Bản đồ ATTP Hà Nội",
+      icon: Map,
+      onClick: onNavigateMap,
+      color: "text-green-500",
+    },
+    {
+      label: "Tra cứu mã",
+      icon: Code2,
+      onClick: onOpenLookup,
+      color: "text-orange-500",
+    },
+    {
+      label: "Hotline phản ánh ATTP",
+      icon: Phone,
+      onClick: () => {
+        // In a real app, this could trigger a call or show contact info
+        alert("Hotline: 1900 0096");
+      },
+      color: "text-red-500",
+    },
+  ];
+
+  // Handle ESC key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape);
+      return () => document.removeEventListener("keydown", handleEscape);
+    }
+  }, [isOpen, onClose]);
+
+  // Handle click outside
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        // Check if click is on the menu button
+        const menuButton = document.querySelector("[data-menu-button]");
+        if (menuButton && !menuButton.contains(e.target as Node)) {
+          onClose();
+        }
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [isOpen, onClose]);
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          ref={dropdownRef}
+          initial={{ opacity: 0, y: -10, scaleY: 0.95 }}
+          animate={{ opacity: 1, y: 0, scaleY: 1 }}
+          exit={{ opacity: 0, y: -10, scaleY: 0.95 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          className="absolute top-full left-0 right-0 w-full bg-card/95 backdrop-blur-xl border-b border-border/50 shadow-2xl"
+          style={{ transformOrigin: "top" }}
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav className="py-3 space-y-1">
+              {menuItems.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <motion.button
+                    key={item.label}
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: index * 0.08 }}
+                    onClick={() => {
+                      item.onClick?.();
+                      onClose();
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-foreground hover:bg-muted/80 transition-all duration-200 group"
+                  >
+                    <div className={`flex-shrink-0 ${item.color}`}>
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <span className="flex-1 text-left text-sm font-medium group-hover:translate-x-0.5 transition-transform">
+                      {item.label}
+                    </span>
+                    <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </motion.button>
+                );
+              })}
+            </nav>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
+
+  const handleNavigateNews = () => {
+    router.push("/news");
+  };
+
+  const handleNavigateMap = () => {
+    router.push("/map");
+  };
+
+  const handleNavigateDiscover = () => {
+    // Scroll to food places section
+    document.getElementById("food-places")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleOpenLookup = () => {
+    // This would trigger the lookup modal from the parent page
+    // For now, we'll dispatch a custom event or use a portal
+    const event = new CustomEvent("openLookupModal");
+    document.dispatchEvent(event);
+  };
 
   return (
     <motion.header
@@ -482,6 +642,7 @@ export function Header() {
 
           {/* Menu Button */}
           <motion.button
+            data-menu-button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -519,33 +680,14 @@ export function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-border bg-card/95 backdrop-blur-xl"
-          >
-            <nav className="px-4 py-4 space-y-2">
-              {["Địa điểm an toàn", "Bản đồ", "Tin tức", "Giới thiệu"].map((item, i) => (
-                <motion.a
-                  key={item}
-                  href={`#${item.toLowerCase().replace(" ", "-")}`}
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="block px-4 py-3 rounded-xl text-foreground hover:bg-muted transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item}
-                </motion.a>
-              ))}
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Dropdown Menu */}
+      <HeaderMenuDropdown
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+        onNavigateNews={handleNavigateNews}
+        onNavigateMap={handleNavigateMap}
+        onNavigateDiscover={handleNavigateDiscover}
+        onOpenLookup={handleOpenLookup}
+      />
     </motion.header>
   );
-}

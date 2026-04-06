@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import { Header } from "@/components/header";
 import { HeroSection } from "@/components/hero-section";
 import { FoodPlacesSection } from "@/components/food-places-section";
@@ -5,15 +8,30 @@ import { MapPreviewSection } from "@/components/map-preview-section";
 import { NewsSection } from "@/components/news-section";
 import { Footer } from "@/components/footer";
 
-export const dynamic = 'force-static';
-
 export default function Home() {
+  const foodPlacesSectionRef = useRef<any>(null);
+
+  useEffect(() => {
+    const handleOpenLookupModal = () => {
+      // Find and click the lookup button in FoodPlacesSection
+      const lookupButton = document.querySelector("[data-lookup-button]");
+      if (lookupButton) {
+        (lookupButton as HTMLButtonElement).click();
+      }
+    };
+
+    document.addEventListener("openLookupModal", handleOpenLookupModal);
+    return () => document.removeEventListener("openLookupModal", handleOpenLookupModal);
+  }, []);
+
   return (
     <main className="min-h-screen bg-background">
       <Header />
       <HeroSection />
       <NewsSection />
-      <FoodPlacesSection />
+      <section id="food-places">
+        <FoodPlacesSection />
+      </section>
       <MapPreviewSection />
       <Footer />
     </main>
